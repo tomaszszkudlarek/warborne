@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warborne — Spell FX</title>
+    <link rel="icon" href="data:," />
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #0c0f14; font-family: Inter, system-ui, sans-serif; color: #e8e2d0; }
+      #app { position: fixed; inset: 0; }
+      #panel {
+        position: fixed; top: 10px; left: 10px; bottom: 10px; width: 250px; overflow-y: auto;
+        background: rgba(14, 16, 22, 0.78); border: 1px solid rgba(216, 178, 90, 0.35); border-radius: 8px;
+        padding: 10px 12px; box-sizing: border-box; backdrop-filter: blur(4px); font-size: 12px;
+      }
+      #panel h1 { font-size: 15px; margin: 0 0 8px; color: #d8b25a; letter-spacing: 0.05em; }
+      #panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #9a927e; margin: 12px 0 5px; }
+      .spells { display: flex; flex-wrap: wrap; gap: 4px; }
+      .spells button {
+        flex: 1 1 45%; padding: 5px 6px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05); color: #eee; cursor: pointer; font-size: 11px; text-align: left;
+        border-left: 3px solid var(--c);
+      }
+      .spells button:hover { background: rgba(255, 255, 255, 0.14); }
+      .spells button.sel { outline: 1px solid var(--c); background: rgba(255, 255, 255, 0.12); }
+      .row { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
+      .row label { flex: 1; }
+      #status { margin-top: 10px; color: #9a927e; min-height: 1.2em; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="panel">
+      <h1>Spell FX preview</h1>
+      <div class="row"><label><input type="checkbox" id="aura" /> Aura of selected spell</label></div>
+      <div class="row"><label><input type="checkbox" id="night" /> Night</label></div>
+      <div class="row"><label><input type="checkbox" id="repeat" /> Repeat selected</label></div>
+      <div class="row"><label>Scale <input type="range" id="scale" min="0.5" max="2" step="0.1" value="1" /></label></div>
+      <div id="status"></div>
+      <div id="lists"></div>
+    </div>
+    <script type="module" src="/src/spellfx-test.js"></script>
+  </body>
+</html>

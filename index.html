@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 2l11 4v9c0 7-5 12-11 15C10 27 5 22 5 15V6z' fill='%23d8b25a'/><path d='M16 7v17M10 12h12' stroke='%23201a10' stroke-width='2.5'/></svg>" />
+    <title>Warborne: Darklords Rise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="topbar" class="hidden"></div>
+    <div id="sidepanel" class="hidden"></div>
+    <div id="tip" class="frame"></div>
+    <div id="toast"></div>
+    <div id="banner"></div>
+    <div id="menu" class="hidden"></div>
+    <div id="dialogs"></div>
+    <div id="loading">
+      <div class="box">
+        <div class="sigil"></div>
+        <h1>WARBORNE</h1>
+        <div class="stage" id="loadStage">Preparing the realm</div>
+        <div class="bar"><i id="loadBar" style="width: 0%"></i></div>
+      </div>
+    </div>
+    <script type="module" src="/src/play/main.js"></script>
+  </body>
+</html>

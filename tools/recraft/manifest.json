@@ -1,0 +1,1086 @@
+{
+ "style": "Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark",
+ "model": "recraftv4_1",
+ "images": [
+  {
+   "id": "unit-archer",
+   "file": "src/assets/art/units/archer.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a longbow archer in green hood and leather jerkin, head and shoulders (whole body for beasts and engines), three-quarter view, the Archers of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-archon",
+   "file": "src/assets/art/units/archon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a radiant winged archon angel in golden armour, head and shoulders (whole body for beasts and engines), three-quarter view, the Archons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-assassin",
+   "file": "src/assets/art/units/assassin.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a hooded assassin with twin daggers, head and shoulders (whole body for beasts and engines), three-quarter view, the Assassin of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-ballista",
+   "file": "src/assets/art/units/ballista.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a heavy wooden siege ballista on wheels, head and shoulders (whole body for beasts and engines), three-quarter view, the Ballistae of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-barbarians",
+   "file": "src/assets/art/units/barbarians.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a fur-clad barbarian warrior with a great axe, head and shoulders (whole body for beasts and engines), three-quarter view, the Barbarians of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-giantbat",
+   "file": "src/assets/art/units/giantbat.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a huge leathery giant bat with glowing eyes, head and shoulders (whole body for beasts and engines), three-quarter view, the Giant Bats of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-catapult",
+   "file": "src/assets/art/units/catapult.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a wooden siege catapult with a loaded throwing arm, head and shoulders (whole body for beasts and engines), three-quarter view, the Catapults of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-cavewyrm",
+   "file": "src/assets/art/units/cavewyrm.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a grey-brown cave wyrm dragon, head and shoulders (whole body for beasts and engines), three-quarter view, the Cave Wyrms of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-centaur",
+   "file": "src/assets/art/units/centaur.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a centaur archer with a spear, head and shoulders (whole body for beasts and engines), three-quarter view, the Centaurs of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-cockatrice",
+   "file": "src/assets/art/units/cockatrice.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a monstrous cockatrice, rooster-serpent hybrid, head and shoulders (whole body for beasts and engines), three-quarter view, the Cockatrice of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-firedemon",
+   "file": "src/assets/art/units/firedemon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a towering fire demon wreathed in flame, head and shoulders (whole body for beasts and engines), three-quarter view, the Fire Demons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-icedemon",
+   "file": "src/assets/art/units/icedemon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an ice demon with frost-blue skin and icicle horns, head and shoulders (whole body for beasts and engines), three-quarter view, the Ice Demons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-blackdragon",
+   "file": "src/assets/art/units/blackdragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a black dragon dripping acid, head and shoulders (whole body for beasts and engines), three-quarter view, the Black Dragons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-bluedragon",
+   "file": "src/assets/art/units/bluedragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a blue dragon crackling with lightning, head and shoulders (whole body for beasts and engines), three-quarter view, the Blue Dragons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-golddragon",
+   "file": "src/assets/art/units/golddragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a majestic gold dragon, head and shoulders (whole body for beasts and engines), three-quarter view, the Gold Dragons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-greendragon",
+   "file": "src/assets/art/units/greendragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a green dragon exhaling poison mist, head and shoulders (whole body for beasts and engines), three-quarter view, the Green Dragons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-reddragon",
+   "file": "src/assets/art/units/reddragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a red dragon breathing fire, head and shoulders (whole body for beasts and engines), three-quarter view, the Red Dragons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-silverdragon",
+   "file": "src/assets/art/units/silverdragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a silver dragon with shining scales, head and shoulders (whole body for beasts and engines), three-quarter view, the Silver Dragon of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-undeaddragon",
+   "file": "src/assets/art/units/undeaddragon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a skeletal undead dragon with ghost-green eyes, head and shoulders (whole body for beasts and engines), three-quarter view, the Undead Dragon of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-dryad",
+   "file": "src/assets/art/units/dryad.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a dryad, a tree spirit woman with bark skin and leaves, head and shoulders (whole body for beasts and engines), three-quarter view, the Dryads of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-dustwyrm",
+   "file": "src/assets/art/units/dustwyrm.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a sandy dust wyrm dragon, head and shoulders (whole body for beasts and engines), three-quarter view, the Dust Wyrms of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-dwarfcrossbow",
+   "file": "src/assets/art/units/dwarfcrossbow.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a dwarf crossbowman in heavy mail, head and shoulders (whole body for beasts and engines), three-quarter view, the Dwarf Crossbows of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-dwarf",
+   "file": "src/assets/art/units/dwarf.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a stout dwarf infantryman with axe and round shield, head and shoulders (whole body for beasts and engines), three-quarter view, the Dwarf Infantry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-dwarfmutant",
+   "file": "src/assets/art/units/dwarfmutant.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a hulking mutated dwarf brute, head and shoulders (whole body for beasts and engines), three-quarter view, the Dwarf Mutants of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-dwarfrunner",
+   "file": "src/assets/art/units/dwarfrunner.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a quick dwarf runner scout, head and shoulders (whole body for beasts and engines), three-quarter view, the Dwarf Runners of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-eagle",
+   "file": "src/assets/art/units/eagle.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a giant war eagle, head and shoulders (whole body for beasts and engines), three-quarter view, the Eagles of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-airelemental",
+   "file": "src/assets/art/units/airelemental.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an air elemental, a swirling humanoid storm, head and shoulders (whole body for beasts and engines), three-quarter view, the Air Elementals of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-fireelemental",
+   "file": "src/assets/art/units/fireelemental.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a fire elemental of living flame, head and shoulders (whole body for beasts and engines), three-quarter view, the Fire Elementals of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-rockelemental",
+   "file": "src/assets/art/units/rockelemental.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a rock elemental of boulders, head and shoulders (whole body for beasts and engines), three-quarter view, the Rock Elementals of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-elephant",
+   "file": "src/assets/art/units/elephant.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an armoured war elephant with a howdah, head and shoulders (whole body for beasts and engines), three-quarter view, the Elephants of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-elf",
+   "file": "src/assets/art/units/elf.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an elven archer with a curved bow, head and shoulders (whole body for beasts and engines), three-quarter view, the Elven Archers of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-elvencavalry",
+   "file": "src/assets/art/units/elvencavalry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an elven knight on a white horse, head and shoulders (whole body for beasts and engines), three-quarter view, the Elven Cavalry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-elveninfantry",
+   "file": "src/assets/art/units/elveninfantry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an elven swordsman in leaf-green armour, head and shoulders (whole body for beasts and engines), three-quarter view, the Elven Infantry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-elflord",
+   "file": "src/assets/art/units/elflord.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an elven lord in golden armour, head and shoulders (whole body for beasts and engines), three-quarter view, the Elven Lords of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-ghost",
+   "file": "src/assets/art/units/ghost.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a pale translucent ghost, head and shoulders (whole body for beasts and engines), three-quarter view, the Ghosts of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-ghoul",
+   "file": "src/assets/art/units/ghoul.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a grey rotting ghoul, head and shoulders (whole body for beasts and engines), three-quarter view, the Ghouls of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-giantbee",
+   "file": "src/assets/art/units/giantbee.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a giant bee with a long stinger, head and shoulders (whole body for beasts and engines), three-quarter view, the Giant Bees of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-giantscorpion",
+   "file": "src/assets/art/units/giantscorpion.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a giant black scorpion, head and shoulders (whole body for beasts and engines), three-quarter view, the Giant Scorpions of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-giantspider",
+   "file": "src/assets/art/units/giantspider.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a giant hairy spider, head and shoulders (whole body for beasts and engines), three-quarter view, the Giant Spiders of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-giant",
+   "file": "src/assets/art/units/giant.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a stone-club wielding hill giant, head and shoulders (whole body for beasts and engines), three-quarter view, the Giants of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-gnollcavalry",
+   "file": "src/assets/art/units/gnollcavalry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a hyena-headed gnoll riding a giant hyena, head and shoulders (whole body for beasts and engines), three-quarter view, the Gnoll Cavalry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-gnollcrossbow",
+   "file": "src/assets/art/units/gnollcrossbow.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a hyena-headed gnoll with a crossbow, head and shoulders (whole body for beasts and engines), three-quarter view, the Gnoll Crossbows of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-gnoll",
+   "file": "src/assets/art/units/gnoll.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a hyena-headed gnoll warrior with a spear, head and shoulders (whole body for beasts and engines), three-quarter view, the Gnoll Infantry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-goblin",
+   "file": "src/assets/art/units/goblin.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a small green goblin with a rusty blade, head and shoulders (whole body for beasts and engines), three-quarter view, the Goblins of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-claygolem",
+   "file": "src/assets/art/units/claygolem.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a clay golem, head and shoulders (whole body for beasts and engines), three-quarter view, the Clay Golems of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-irongolem",
+   "file": "src/assets/art/units/irongolem.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an iron golem, head and shoulders (whole body for beasts and engines), three-quarter view, the Iron Golem of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-stonegolem",
+   "file": "src/assets/art/units/stonegolem.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a stone golem, head and shoulders (whole body for beasts and engines), three-quarter view, the Stone Golem of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-griffon",
+   "file": "src/assets/art/units/griffon.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a griffon, eagle-lion beast, head and shoulders (whole body for beasts and engines), three-quarter view, the Griffons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-halfling",
+   "file": "src/assets/art/units/halfling.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a halfling slinger, head and shoulders (whole body for beasts and engines), three-quarter view, the Halflings of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-harpy",
+   "file": "src/assets/art/units/harpy.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a shrieking harpy with feathered wings, head and shoulders (whole body for beasts and engines), three-quarter view, the Harpies of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-heavycavalry",
+   "file": "src/assets/art/units/heavycavalry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a heavy cavalryman in plate on an armoured warhorse, head and shoulders (whole body for beasts and engines), three-quarter view, the Heavy Cavalry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-heavyinfantry",
+   "file": "src/assets/art/units/heavyinfantry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a heavy infantryman in plate with kite shield and sword, head and shoulders (whole body for beasts and engines), three-quarter view, the Heavy Infantry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-hellhound",
+   "file": "src/assets/art/units/hellhound.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a fiery hellhound, head and shoulders (whole body for beasts and engines), three-quarter view, the Hellhounds of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-imp",
+   "file": "src/assets/art/units/imp.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a small winged red imp, head and shoulders (whole body for beasts and engines), three-quarter view, the Imps of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-knight",
+   "file": "src/assets/art/units/knight.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a mounted knight with lance and heraldic shield, head and shoulders (whole body for beasts and engines), three-quarter view, the Knights of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-knightlord",
+   "file": "src/assets/art/units/knightlord.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a knight lord in ornate gilded armour on a barded horse, head and shoulders (whole body for beasts and engines), three-quarter view, the Knight Lords of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-lich",
+   "file": "src/assets/art/units/lich.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a lich sorcerer with a glowing skull staff, head and shoulders (whole body for beasts and engines), three-quarter view, the Liches of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-lightcavalry",
+   "file": "src/assets/art/units/lightcavalry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a light cavalry rider with a spear, head and shoulders (whole body for beasts and engines), three-quarter view, the Light Cavalry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-lightinfantry",
+   "file": "src/assets/art/units/lightinfantry.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a light infantryman with spear and leather armour, head and shoulders (whole body for beasts and engines), three-quarter view, the Light Infantry of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-medusa",
+   "file": "src/assets/art/units/medusa.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a medusa with snake hair, head and shoulders (whole body for beasts and engines), three-quarter view, the Medusae of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-minotaur",
+   "file": "src/assets/art/units/minotaur.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a minotaur with a double axe, head and shoulders (whole body for beasts and engines), three-quarter view, the Minotaurs of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-moonguard",
+   "file": "src/assets/art/units/moonguard.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a silver-armoured moonguard spearman, head and shoulders (whole body for beasts and engines), three-quarter view, the Moonguard of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-iceguard",
+   "file": "src/assets/art/units/iceguard.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an ice guard warrior in frosted armour, head and shoulders (whole body for beasts and engines), three-quarter view, the Iceguard of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-mummy",
+   "file": "src/assets/art/units/mummy.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a bandaged mummy, head and shoulders (whole body for beasts and engines), three-quarter view, the Mummies of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-nightmare",
+   "file": "src/assets/art/units/nightmare.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a black nightmare horse with flaming mane, head and shoulders (whole body for beasts and engines), three-quarter view, the Nightmares of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-ogre",
+   "file": "src/assets/art/units/ogre.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a brutish ogre with a club, head and shoulders (whole body for beasts and engines), three-quarter view, the Ogres of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-orc",
+   "file": "src/assets/art/units/orc.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a snarling orc with a crude blade, head and shoulders (whole body for beasts and engines), three-quarter view, the Orc Mobs of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-orog",
+   "file": "src/assets/art/units/orog.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a dark-skinned elite orog warrior, head and shoulders (whole body for beasts and engines), three-quarter view, the Orogs of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-peasant",
+   "file": "src/assets/art/units/peasant.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a peasant militiaman with a pitchfork, head and shoulders (whole body for beasts and engines), three-quarter view, the Peasants of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-pegasus",
+   "file": "src/assets/art/units/pegasus.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a white winged pegasus, head and shoulders (whole body for beasts and engines), three-quarter view, the Pegasi of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-darkpegasus",
+   "file": "src/assets/art/units/darkpegasus.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a black winged dark pegasus, head and shoulders (whole body for beasts and engines), three-quarter view, the Dark Pegasi of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-pikeman",
+   "file": "src/assets/art/units/pikeman.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a pikeman with a long pike, head and shoulders (whole body for beasts and engines), three-quarter view, the Pikemen of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-plaguecarrier",
+   "file": "src/assets/art/units/plaguecarrier.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a plague carrier in rags with a censer of green smoke, head and shoulders (whole body for beasts and engines), three-quarter view, the Plague Carriers of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-giantrat",
+   "file": "src/assets/art/units/giantrat.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a giant diseased rat, head and shoulders (whole body for beasts and engines), three-quarter view, the Giant Rats of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-reaver",
+   "file": "src/assets/art/units/reaver.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a savage reaver raider with a flail, head and shoulders (whole body for beasts and engines), three-quarter view, the Reavers of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-scout",
+   "file": "src/assets/art/units/scout.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a light scout with a short bow, head and shoulders (whole body for beasts and engines), three-quarter view, the Scouts of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-siegeengine",
+   "file": "src/assets/art/units/siegeengine.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a wooden siege tower on wheels, head and shoulders (whole body for beasts and engines), three-quarter view, the Siege Engines of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-skeleton",
+   "file": "src/assets/art/units/skeleton.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a skeleton warrior with sword and shield, head and shoulders (whole body for beasts and engines), three-quarter view, the Skeletons of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-slayerknight",
+   "file": "src/assets/art/units/slayerknight.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a black-armoured slayer knight, head and shoulders (whole body for beasts and engines), three-quarter view, the Slayer Knights of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-spectre",
+   "file": "src/assets/art/units/spectre.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a blue spectral spectre, head and shoulders (whole body for beasts and engines), three-quarter view, the Spectres of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-treant",
+   "file": "src/assets/art/units/treant.webp",
+   "size": "4:5",
+   "prompt": "Portrait of an ancient treant tree creature, head and shoulders (whole body for beasts and engines), three-quarter view, the Treants of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-troll",
+   "file": "src/assets/art/units/troll.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a green regenerating troll, head and shoulders (whole body for beasts and engines), three-quarter view, the Trolls of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-undeadbeast",
+   "file": "src/assets/art/units/undeadbeast.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a monstrous undead beast of bone and sinew, head and shoulders (whole body for beasts and engines), three-quarter view, the Undead Beast of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-unicorn",
+   "file": "src/assets/art/units/unicorn.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a white unicorn, head and shoulders (whole body for beasts and engines), three-quarter view, the Unicorns of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-warg",
+   "file": "src/assets/art/units/warg.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a huge snarling warg wolf, head and shoulders (whole body for beasts and engines), three-quarter view, the Wargs of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-wight",
+   "file": "src/assets/art/units/wight.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a pale-blue armoured wight, head and shoulders (whole body for beasts and engines), three-quarter view, the Wights of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-wolfrider",
+   "file": "src/assets/art/units/wolfrider.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a goblin riding a wolf, head and shoulders (whole body for beasts and engines), three-quarter view, the Wolfriders of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-wraith",
+   "file": "src/assets/art/units/wraith.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a hooded black wraith, head and shoulders (whole body for beasts and engines), three-quarter view, the Wraiths of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-zombie",
+   "file": "src/assets/art/units/zombie.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a shambling zombie, head and shoulders (whole body for beasts and engines), three-quarter view, the Zombies of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "unit-greenslime",
+   "file": "src/assets/art/units/greenslime.webp",
+   "size": "4:5",
+   "prompt": "Portrait of a bubbling green slime ooze, head and shoulders (whole body for beasts and engines), three-quarter view, the Green Slime of a fantasy army. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-summoner",
+   "file": "src/assets/art/units/summoner.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a summoner in dark robes with a staff crowned by a demon skull, a legendary Summoner hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-alchemist",
+   "file": "src/assets/art/units/alchemist.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of an alchemist with potion vials and brass goggles, a legendary Alchemist hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-monk",
+   "file": "src/assets/art/units/monk.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a bald martial-arts monk in saffron robes, a legendary Monk hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-bard",
+   "file": "src/assets/art/units/bard.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a bard with a lute and feathered cap, a legendary Bard hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-barbarian",
+   "file": "src/assets/art/units/barbarian.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a barbarian chieftain with a greatsword, a legendary Barbarian hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-general",
+   "file": "src/assets/art/units/general.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a general in plate armour and a crimson cloak, a legendary General hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-necromancer",
+   "file": "src/assets/art/units/necromancer.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a necromancer in black robes with a skull staff, a legendary Necromancer hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-paladin",
+   "file": "src/assets/art/units/paladin.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a paladin in shining plate with a tabard and warhammer, a legendary Paladin hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-priest",
+   "file": "src/assets/art/units/priest.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a priest in white and gold vestments with a holy symbol, a legendary Priest hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-ranger",
+   "file": "src/assets/art/units/ranger.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a ranger in a green cloak with a longbow, a legendary Ranger hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-shaman",
+   "file": "src/assets/art/units/druid.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a druid-shaman with antlered headdress and a gnarled staff, a legendary Shaman hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-thief",
+   "file": "src/assets/art/units/rogue.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a rogue thief in a dark hood with daggers, a legendary Thief hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-vampire",
+   "file": "src/assets/art/units/vampire.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a vampire lord in a high-collared cloak, a legendary Vampire hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-warrior",
+   "file": "src/assets/art/units/warrior.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of a battle-scarred warrior with sword and shield, a legendary Warrior hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "hero-wizard",
+   "file": "src/assets/art/units/mage.webp",
+   "size": "4:5",
+   "prompt": "Heroic portrait of an old wizard in blue robes with a glowing staff, a legendary Wizard hero, head and shoulders, three-quarter view, noble and determined. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-strength",
+   "file": "src/assets/art/spells/strength.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Strength\" (Strength +2 (caster)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-haste",
+   "file": "src/assets/art/spells/haste.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Haste\" (Move +8 (group)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-flight",
+   "file": "src/assets/art/spells/flight.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Flight\" (The whole group flies), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-wallofforce",
+   "file": "src/assets/art/spells/wallofforce.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Wall of Force\" (Fortify +2), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-heroism",
+   "file": "src/assets/art/spells/heroism.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Heroism\" (Leadership +2, Strength +1 (caster)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-invisibility",
+   "file": "src/assets/art/spells/invisibility.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Invisibility\" (The group cannot be seen unless it attacks), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-phantomsteed",
+   "file": "src/assets/art/spells/phantomsteed.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Phantom Steed\" (Move +10 (group)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-terror",
+   "file": "src/assets/art/spells/terror.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Terror\" (Fear +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-chaosseed",
+   "file": "src/assets/art/spells/chaosseed.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Chaos Seed\" (Chaos +2), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-reanimate",
+   "file": "src/assets/art/spells/reanimate.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Reanimate\" (Summons 4-8 Skeletons), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-wraithcall",
+   "file": "src/assets/art/spells/wraithcall.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Wraithcall\" (Summons 1-2 Wraiths), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-lifesbane",
+   "file": "src/assets/art/spells/lifesbane.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Lifesbane\" (Summons 6-10 Skeletons, 1-4 Wights, 1-2 Wraiths, 0-1 Undead Beasts), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-fortify",
+   "file": "src/assets/art/spells/fortify.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Fortify\" (Fortify +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-bravery",
+   "file": "src/assets/art/spells/bravery.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Bravery\" (Morale +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-mightyfeast",
+   "file": "src/assets/art/spells/mightyfeast.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Mighty Feast\" (Hits +1 (group), Strength +1 (caster)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-dig",
+   "file": "src/assets/art/spells/dig.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Dig\" (Engineering +2 (cheaper city building)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-augury",
+   "file": "src/assets/art/spells/augury.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Augury\" (Reveals the map and every army for miles around), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-jihad",
+   "file": "src/assets/art/spells/jihad.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Jihad\" (Siege +1, Move +4 (group)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-evileye",
+   "file": "src/assets/art/spells/evileye.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Evil Eye\" (Poison +5, Disease +5, Paralysis +5, Curse +5), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-berserker",
+   "file": "src/assets/art/spells/berserker.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Berserker\" (Strength +1 (group), Fear +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-summonimp",
+   "file": "src/assets/art/spells/summonimp.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Summon Imp\" (Summons 1-3 Imps), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-summonhound",
+   "file": "src/assets/art/spells/summonhound.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Summon Hound\" (Summons 1-5 Hellhounds), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-minordemon",
+   "file": "src/assets/art/spells/minordemon.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Minor Demon\" (Summons 1-3 Ice Demons), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-greaterdemon",
+   "file": "src/assets/art/spells/greaterdemon.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Greater Demon\" (Summons 1-3 Fire Demons), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-teleport",
+   "file": "src/assets/art/spells/teleport.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Teleport\" (Teleports the group to any friendly city), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-creategolem",
+   "file": "src/assets/art/spells/creategolem.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Create Golem\" (Summons 1 Clay Golem), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-summonitem",
+   "file": "src/assets/art/spells/summonitem.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Summon Item\" (Summons a nearby magic item), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-mightyblow",
+   "file": "src/assets/art/spells/mightyblow.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Mighty Blow\" (Trample +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-bodycontrol",
+   "file": "src/assets/art/spells/bodycontrol.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Body Control\" (Strength +1, Hits +1, Move +4), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-mindcontrol",
+   "file": "src/assets/art/spells/mindcontrol.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Mind Control\" (Fear +1, Morale +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-stormsong",
+   "file": "src/assets/art/spells/stormsong.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Storm Song\" (Lightning +2, Chaos +1), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-songofbattle",
+   "file": "src/assets/art/spells/songofbattle.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Song of Battle\" (Morale +1, Move +5 (group)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-songoflife",
+   "file": "src/assets/art/spells/songoflife.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Song of Life\" (Hits +1 (group), Move +4 (group)), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-songofstone",
+   "file": "src/assets/art/spells/songofstone.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Song of Stone\" (Fortify +1, Engineer +2), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "spell-songoffortune",
+   "file": "src/assets/art/spells/songoffortune.webp",
+   "size": "1:1",
+   "prompt": "Round magic spell icon for \"Song of Fortune\" (Leadership +1, Income +3), a glowing arcane emblem centred on a dark background, luminous magical energy. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-swordmight",
+   "file": "src/assets/art/items/swordmight.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Sword of Might, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-axeslaughter",
+   "file": "src/assets/art/items/axeslaughter.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Axe of Slaughter, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-firebrand",
+   "file": "src/assets/art/items/firebrand.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Firebrand, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-shieldwarding",
+   "file": "src/assets/art/items/shieldwarding.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Shield of Warding, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-plateknights",
+   "file": "src/assets/art/items/plateknights.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Enchanted Plate, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-bootsspeed",
+   "file": "src/assets/art/items/bootsspeed.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Boots of Speed, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-sevenleague",
+   "file": "src/assets/art/items/sevenleague.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Seven League Boots, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-wingsflight",
+   "file": "src/assets/art/items/wingsflight.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Wings of Flight, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-bannerlead",
+   "file": "src/assets/art/items/bannerlead.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Banner of Command, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-crowncommand",
+   "file": "src/assets/art/items/crowncommand.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Crown of Command, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-crownkings",
+   "file": "src/assets/art/items/crownkings.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Crown of Kings, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-hornvalor",
+   "file": "src/assets/art/items/hornvalor.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Horn of Valour, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-drumwar",
+   "file": "src/assets/art/items/drumwar.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: War Drums, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-skullfear",
+   "file": "src/assets/art/items/skullfear.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Skull of Dread, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-masknight",
+   "file": "src/assets/art/items/masknight.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Mask of Nightmares, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-orbchaos",
+   "file": "src/assets/art/items/orbchaos.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Orb of Chaos, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-stonewall",
+   "file": "src/assets/art/items/stonewall.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Stone of the Wall, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-ramiron",
+   "file": "src/assets/art/items/ramiron.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Iron Ram, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-hammerwalls",
+   "file": "src/assets/art/items/hammerwalls.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Hammer of Walls, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-ringwealth",
+   "file": "src/assets/art/items/ringwealth.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Ring of Wealth, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-purseplenty",
+   "file": "src/assets/art/items/purseplenty.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Purse of Plenty, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-staffmana",
+   "file": "src/assets/art/items/staffmana.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Staff of Mana, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-staffarchmage",
+   "file": "src/assets/art/items/staffarchmage.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Staff of the Archmage, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-amuletlife",
+   "file": "src/assets/art/items/amuletlife.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Amulet of Life, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-eyefar",
+   "file": "src/assets/art/items/eyefar.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Eye of Far Seeing, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-daggerassassin",
+   "file": "src/assets/art/items/daggerassassin.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Assassin's Dagger, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-wardstone",
+   "file": "src/assets/art/items/wardstone.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Ward Stone, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-pickengineer",
+   "file": "src/assets/art/items/pickengineer.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Engineer's Pick, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-gauntletsogre",
+   "file": "src/assets/art/items/gauntletsogre.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Gauntlets of Ogre Power, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "item-hornkor",
+   "file": "src/assets/art/items/hornkor.webp",
+   "size": "1:1",
+   "prompt": "Inventory icon of a magic item: Horn of Kor, a single object centred, softly glowing enchantment. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-plains",
+   "file": "src/assets/art/backgrounds/battle-plains.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: rolling grassy plains under a stormy sky, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-forest",
+   "file": "src/assets/art/backgrounds/battle-forest.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: a dark ancient forest clearing, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-hills",
+   "file": "src/assets/art/backgrounds/battle-hills.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: rocky highland hills, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-swamp",
+   "file": "src/assets/art/backgrounds/battle-swamp.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: a misty fetid swamp, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-snow",
+   "file": "src/assets/art/backgrounds/battle-snow.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: a frozen snowfield, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-volcanic",
+   "file": "src/assets/art/backgrounds/battle-volcanic.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: a volcanic wasteland with lava rivers, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-siege",
+   "file": "src/assets/art/backgrounds/battle-siege.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: the walls and gatehouse of a besieged medieval castle, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-ruin",
+   "file": "src/assets/art/backgrounds/battle-ruin.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: the haunted interior of an ancient ruin, torchlit, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-battle-sea",
+   "file": "src/assets/art/backgrounds/battle-sea.webp",
+   "size": "16:9",
+   "prompt": "Wide empty battlefield backdrop: a stormy sea with warships, no figures, room for two armies to face each other, cinematic depth. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  },
+  {
+   "id": "bg-menu",
+   "file": "src/assets/art/backgrounds/menu.webp",
+   "size": "16:9",
+   "prompt": "Epic fantasy vista of rival castles, marching armies and a dragon over a valley, title-screen key art, no text. Painted high-fantasy illustration, rich oil-paint texture, dramatic rim light, muted earthy palette with gold highlights, in the spirit of 1990s Warlords III box art (Brom), dark vignette background, no text, no border, no watermark"
+  }
+ ]
+}

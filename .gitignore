@@ -1,0 +1,11 @@
+node_modules
+dist
+*.png
+!docs/*.png
+.DS_Store
+# API keys (Meshy, Tripo): never commit
+vars.env
+*.env
+# Raw Meshy downloads (~3.8 GB); the game only needs the built public/models
+tools/meshy/
+*.log

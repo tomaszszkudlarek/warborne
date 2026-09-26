@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 28 L12 10 L17 19 L21 13 L28 28 Z' fill='%23d8b25a'/></svg>" />
+    <title>Warborne — Map Forge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <header class="title">
+      <h1>Warborne</h1>
+      <div class="subtitle">Map Forge</div>
+      <div id="map-info" class="panel map-info"></div>
+    </header>
+
+    <div id="tile-info" class="panel tile-info"></div>
+
+    <div id="minimap-wrap" class="panel minimap-wrap"></div>
+
+    <div class="help panel">
+      <b>Drag</b> pan · <b>Right-drag</b> rotate · <b>Wheel</b> zoom · <b>WASD</b> move · <b>Q/E</b> turn · click minimap to travel
+    </div>
+
+    <div id="loading" class="loading visible">
+      <div class="loading-box">
+        <div class="sigil"></div>
+        <div id="load-stage">Preparing</div>
+        <div class="bar"><div id="load-bar"></div></div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
