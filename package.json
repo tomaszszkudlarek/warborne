@@ -1,6 +1,6 @@
 {
   "name": "warlords-map-forge",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "3D Warlords-style map generator (Three.js)",
   "scripts": {
     "dev": "vite",

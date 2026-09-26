@@ -313,7 +313,7 @@ test('a ruin is searched by the hero alone, backed by the army\'s strength; the 
     g.addUnits(t, pid, [hero, ...others]);
     g.s.stacks = g.s.stacks.filter((x) => x !== k);
     const stack = g.stackAt(t);
-    assert.ok(ruinChance(hero, 1, stack.units) > ruinChance(hero, 1), 'the army with the hero improves the odds');
+    assert.ok(ruinChance(hero, 2, stack.units) > ruinChance(hero, 2), 'the army with the hero improves the odds');
     assert.ok(ruinChance(hero, 3) < 0.5, 'a lone fresh hero is likely to die in a dangerous ruin');
     const out = g.search(stack);
     tries++;
