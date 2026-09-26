@@ -33,6 +33,8 @@ export const DAY_SPEED = 0.03;
 export const GAME_DAWN = 6;
 // How much faster other sides' armies march on screen than the player's (user: 30% slower than 2.6).
 export const ENEMY_MARCH_SPEED = 1.82;
+// End Turn ignores clicks this long (ms) after a turn opens or a group is handed back (double clicks, lag).
+const END_TURN_GUARD = 800;
 const CAPTURE_DELAY = 1000; // ms after the battle screen closes before a taken castle is announced (user)
 // A click on a castle opens the city only this close to its middle (in tiles); elsewhere it takes the stack in that corner.
 const CITY_CLICK = 0.42;
@@ -110,6 +112,7 @@ export class Controller {
     for (const e of g.s.log.slice(-30)) this.hud.addLog(e);
     this.weather.setClimate(g.s.weather.name);
     this.weather.onChange = () => this.hud.renderTop();
+    this.weather.onStrike = () => { if (this.game && this.running) music.thunder(); };
     this.sky.daySpeed = DAY_SPEED;
     this.sky.timeOfDay = GAME_DAWN;
     music.newGame();
@@ -214,6 +217,7 @@ export class Controller {
     }
     await this._diplomacyTurn(p);
     if (this.game !== g || g.s.over) { this.endTurnResolve = null; this.human = false; return 'over'; }
+    this._endGuardUntil = performance.now() + END_TURN_GUARD;
     const r = await new Promise((resolve) => { this.endTurnResolve = resolve; });
     this.endTurnResolve = null;
     this.human = false;
@@ -297,12 +301,24 @@ export class Controller {
   }
 
   async endTurnClicked() {
-    if (!this.human || this.busy) return;
+    // a second click of a double click (or one queued up while the machine lagged) must not end
+    // the next turn too, nor skip a hand-back below: clicks too soon after the turn opens are dropped
+    if (!this.human || this.busy || this._endingTurn || performance.now() < (this._endGuardUntil ?? 0)) return;
+    this._endingTurn = true;
+    this.hud.endBtn.disabled = true;
+    try { await this._endTurn(); } finally {
+      this._endingTurn = false;
+      this.hud.endBtn.disabled = !this.human;
+    }
+  }
+
+  async _endTurn() {
     // like Civilization: groups with a standing route march on before the turn ends
     const g = this.game;
     const back = await this.runOrders();
     if (this.game !== g || !this.human || g.s.over || this.pendingGameOver) return;
     if (back) {
+      this._endGuardUntil = performance.now() + END_TURN_GUARD;
       // a group marched on its own and can still act, or would attack: the turn waits for the player
       this.selectStack(back.k.id);
       this.centerOnSelection();

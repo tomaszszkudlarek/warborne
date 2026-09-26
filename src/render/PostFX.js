@@ -6,6 +6,12 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { HorizontalTiltShiftShader } from 'three/addons/shaders/HorizontalTiltShiftShader.js';
 import { VerticalTiltShiftShader } from 'three/addons/shaders/VerticalTiltShiftShader.js';
+import { U } from './uniforms.js';
+
+// Bloom threshold (scene brightness): sunlit snow and ice reach ~1.0-1.3 in daylight and
+// would bloom into a milky haze, so by day only real glows (lava, spells, sun) bloom;
+// at night nothing is sunlit and the fires and beacons bloom from 1.0.
+const BLOOM_DAY = 1.5, BLOOM_NIGHT = 1.0;
 
 // Sun glare: halo, starburst streak and chromatic ghosts, faded by occlusion.
 const LensFlareShader = {
@@ -156,6 +162,7 @@ export class PostFX {
     // an invisible flare would only copy the frame
     this.flare.enabled = this.flare.uniforms.uVisible.value >= 0.001;
     this.bloom.enabled = this.bloom.strength > 0;
+    this.bloom.threshold = BLOOM_DAY + (BLOOM_NIGHT - BLOOM_DAY) * U.uNight.value;
     this.composer.render(dt);
   }
 }

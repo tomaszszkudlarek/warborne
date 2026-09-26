@@ -26,6 +26,8 @@ const SFX = {
   sail: { url: sound('movement/sailing.mp3'), level: 0.3 }, // loops while ships sail
   rain: { url: sound('ambience/rain.mp3'), level: 0.5 }, // ambience while it rains (user: kept low)
   snow: { url: sound('ambience/snow.mp3'), level: 0.2 }, // ambience while it snows
+  thunder1: { url: sound('ambience/thunder1.mp3'), level: 0.6 }, // a lightning strike (thunder() picks one)
+  thunder2: { url: sound('ambience/thunder2.mp3'), level: 0.6 },
   bless: { url: sound('magic/blessing.mp3'), level: 0.6 }, // the player's armies are blessed
   cast: { url: sound('magic/cast-spell.mp3'), level: 0.6 },
   turn: { url: sound('events/new-turn.mp3'), level: 0.5 },
@@ -140,6 +142,15 @@ class Music {
     el.volume = s.level * this.sfxVolume;
     el.currentTime = 0;
     el.play().catch(() => {});
+  }
+
+  /** Thunder after a lightning strike: a random clap, a moment later; claps may overlap but the
+   * same one never restarts while it still rolls. */
+  thunder() {
+    const free = ['thunder1', 'thunder2'].filter((n) => !this._sfx[n] || this._sfx[n].paused || this._sfx[n].ended);
+    if (!free.length) return;
+    const name = free[Math.floor(Math.random() * free.length)];
+    setTimeout(() => this.sfx(name), 250 + Math.random() * 1200);
   }
 
   stopSfx(name) { this._sfx[name]?.pause(); }

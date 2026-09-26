@@ -298,6 +298,7 @@ export class WeatherSystem {
     for (const g of geos) this.boltGroup.add(new THREE.Mesh(g, this.boltMat));
     this.boltLife = 0.35;
     this.flash = 1;
+    this.onStrike?.();
   }
 
   clearBolt() {
