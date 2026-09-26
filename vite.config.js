@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 // Pages: the game (index.html), the map generator (forge.html) and the spell effects bench.
@@ -42,8 +42,12 @@ function musicList() {
   };
 }
 
+// The game's version (package.json; `npm run bump -- patch|minor`), shown on the title screen.
+const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
+
 export default defineConfig({
   plugins: [musicList()],
+  define: { __APP_VERSION__: JSON.stringify(version) },
   worker: { format: 'es' },
   build: {
     target: 'es2022',

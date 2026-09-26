@@ -184,8 +184,8 @@ export function fight(attackers, defenders, ctx = {}) {
  * backed by a strong army wins most ruins). Returns a fight()-shaped result whose log the
  * battle screen plays back, plus `chance`.
  */
-export const RUIN_ODDS = [0, 0.75, 0.56, 0.36]; // a lone level-1 hero of strength 4, 2 hits, by danger
-export const RUIN_ARMY = 0.01; // per strength point of each army waiting with the hero
+export const RUIN_ODDS = [0, 0.82, 0.63, 0.40]; // a lone level-1 hero of strength 4, 2 hits, by danger
+export const RUIN_ARMY = 0.012; // per strength point of each army waiting with the hero
 export const RUIN_ARMY_MAX = 0.35;
 export function ruinChance(hero, danger, group = []) {
   const s = unitStats(hero);

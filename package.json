@@ -1,6 +1,6 @@
 {
   "name": "warlords-map-forge",
-  "version": "1.0.0",
+  "version": "0.8.5",
   "description": "3D Warlords-style map generator (Three.js)",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,8 @@
     "map": "node tools/preview.mjs",
     "test": "node --test tests/",
     "sim": "node tools/sim.mjs",
-    "pack-models": "node tools/pack-models.mjs"
+    "pack-models": "node tools/pack-models.mjs",
+    "bump": "npm version --no-git-tag-version"
   },
   "keywords": [],
   "author": "",

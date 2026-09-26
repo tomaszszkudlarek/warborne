@@ -97,6 +97,7 @@ export class MainMenu {
         btn('How to play', () => this.help()),
       ),
       h('div.foot', `Maps are read from the project's maps/ folder (${listMaps().length} found). Make new ones with the Map Forge → “Save map for the game”, then drop the .wlmap file into maps/.`),
+      h('div.ver', `v${__APP_VERSION__}`),
     );
   }
 
