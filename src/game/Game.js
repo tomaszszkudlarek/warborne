@@ -1220,17 +1220,24 @@ export class Game {
     if (silent || (owner != null && !this.player(owner)?.human)) this.autoSpend(u);
   }
 
-  /** Abilities a hero may buy now: [{ index, ability, cost }] (levels reached, not bought, affordable). */
+  /** Whether the ability on level row `index` is open to the hero: spells from their level on,
+   * attributes at any level (only their AP cost holds them back). */
+  abilityOpen(u, index) {
+    const l = HERO_CLASSES[u.hero.cls].levels[index];
+    return !!l && (!l.ability.spell || index < u.hero.level);
+  }
+
+  /** Abilities a hero may buy now: [{ index, ability, cost }] (open, not bought). */
   buyable(u) {
     const h = u.hero, cls = HERO_CLASSES[h.cls];
     return cls.levels.map((l, i) => ({ index: i, ability: l.ability, cost: l.cost, title: l.title }))
-      .filter((x) => x.index < h.level && !h.bought.includes(x.index));
+      .filter((x) => this.abilityOpen(u, x.index) && !h.bought.includes(x.index));
   }
 
   buyAbility(u, index) {
     const h = u.hero, cls = HERO_CLASSES[h.cls];
     const l = cls.levels[index];
-    if (!l || index >= h.level || h.bought.includes(index) || h.ap < l.cost) return false;
+    if (!this.abilityOpen(u, index) || h.bought.includes(index) || h.ap < l.cost) return false;
     h.ap -= l.cost;
     h.bought.push(index);
     if (l.ability.spell && !h.spells.includes(l.ability.spell)) h.spells.push(l.ability.spell);
@@ -1585,6 +1592,26 @@ export class Game {
     u.hero.quest = q.text;
     this.note(`${u.hero.name} accepts a quest: ${q.text}.`, { t: stack.t, kind: 'magic' });
     return q;
+  }
+
+  /** How far along `pid`'s quest is: { text, done, n (counted quests), dist (tiles to the goal), days }. */
+  questProgress(pid) {
+    const q = this.s.quests[pid];
+    if (!q) return null;
+    const u = this.unit(q.hero);
+    const at = u ? this.stackOfUnit(u.id)?.t : null;
+    const days = this.s.round - q.round;
+    const out = { text: q.text, difficulty: q.difficulty, days, t: q.t ?? null, n: q.n ?? null, done: q.done ?? 0, dist: null };
+    if (q.t != null && at != null) out.dist = this.move.distance(at, q.t);
+    const where = q.t != null ? (this.cityAt(q.t)?.name ?? this.site(q.t)?.name) : null;
+    if (q.kind === 'kill') out.status = `${out.done} of ${q.n} enemy armies slain`;
+    else if (q.kind === 'gold') out.status = `${out.done} of ${q.n} gold won`;
+    else if (q.kind === 'capture') {
+      const c = this.s.cities[q.city];
+      out.status = `${c.name} is held by ${c.owner < 0 ? 'neutrals' : this.player(c.owner).name}`;
+    } else out.status = `Not yet ${q.kind === 'ruin' ? 'searched' : 'reached'}${where ? ` — ${where}` : ''}`;
+    if (out.dist != null) out.status += ` · ${out.dist === 0 ? 'here' : `${out.dist} tiles away`}`;
+    return out;
   }
 
   abandonQuest(pid) {

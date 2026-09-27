@@ -38,15 +38,34 @@ const END_TURN_GUARD = 800;
 const CAPTURE_DELAY = 1000; // ms after the battle screen closes before a taken castle is announced (user)
 // A click on a castle opens the city only this close to its middle (in tiles); elsewhere it takes the stack in that corner.
 const CITY_CLICK = 0.42;
-// The pointer over something a right click would attack this turn.
-const SWORDS_CURSOR = `url("data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>`
-  + `<g stroke='#1a0d06' stroke-width='1.2' stroke-linejoin='round'>`
-  + `<path d='M4 3 L7 3 L22 18 L20 20 L5 6 Z' fill='#e8ecf2'/><path d='M28 3 L25 3 L10 18 L12 20 L27 6 Z' fill='#e8ecf2'/>`
-  + `<path d='M17 21 L22 16 L24 18 L19 23 Z M15 21 L10 16 L8 18 L13 23 Z' fill='#d9a54a'/>`
-  + `<path d='M21 22 L25 26 L27 24 L23 20 Z M11 22 L7 26 L5 24 L9 20 Z' fill='#7a3a1c'/>`
-  + `<circle cx='26.5' cy='26.5' r='2' fill='#d9a54a'/><circle cx='5.5' cy='26.5' r='2' fill='#d9a54a'/></g></svg>`,
-)}") 16 14, crosshair`;
+// Context cursors (SVG, drawn on a dark outline so they read on any ground).
+const svgCursor = (body, x, y, fallback) => `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g stroke='#1a0d06' stroke-width='1.2' stroke-linejoin='round'>${body}</g></svg>`,
+)}") ${x} ${y}, ${fallback}`;
+const CURSORS = {
+  // a right click would attack this turn: crossed swords
+  attack: svgCursor(
+    `<path d='M4 3 L7 3 L22 18 L20 20 L5 6 Z' fill='#e8ecf2'/><path d='M28 3 L25 3 L10 18 L12 20 L27 6 Z' fill='#e8ecf2'/>`
+    + `<path d='M17 21 L22 16 L24 18 L19 23 Z M15 21 L10 16 L8 18 L13 23 Z' fill='#d9a54a'/>`
+    + `<path d='M21 22 L25 26 L27 24 L23 20 Z M11 22 L7 26 L5 24 L9 20 Z' fill='#7a3a1c'/>`
+    + `<circle cx='26.5' cy='26.5' r='2' fill='#d9a54a'/><circle cx='5.5' cy='26.5' r='2' fill='#d9a54a'/>`, 16, 14, 'crosshair'),
+  // a left click takes one of your armies: a gold arrow with a pennant
+  select: svgCursor(
+    `<path d='M3 2 L3 24 L9 18.5 L13 27 L17 25.2 L13 16.8 L20.5 16.5 Z' fill='#e9c46a'/>`
+    + `<path d='M22 4 L22 15' fill='none' stroke-width='1.6'/><path d='M22.6 4.5 L30 7 L22.6 9.5 Z' fill='#b3261e'/>`, 3, 2, 'pointer'),
+  // a left click opens a castle
+  city: svgCursor(
+    `<path d='M5 29 L5 11 L3 11 L3 6 L7 6 L7 8 L9 8 L9 6 L13 6 L13 11 L11 11 L11 14 L21 14 L21 11 L19 11 L19 6 L23 6 L23 8 L25 8 L25 6 L29 6 L29 11 L27 11 L27 29 Z' fill='#cdbb95'/>`
+    + `<path d='M13 29 L13 22 A3 3 0 0 1 19 22 L19 29 Z' fill='#4a2a14'/><path d='M16 3 L16 12' fill='none'/><path d='M16.5 3.3 L22 5 L16.5 6.7 Z' fill='#e9c46a'/>`, 16, 17, 'pointer'),
+  // a right click sends the group there: a banner planted at the goal
+  move: svgCursor(
+    `<path d='M6.5 30 L6.5 3' fill='none' stroke='#1a0d06' stroke-width='3.2'/><path d='M6.5 30 L6.5 3' fill='none' stroke='#d9a54a' stroke-width='1.4'/>`
+    + `<path d='M7.5 4 L26 4 L22 9.5 L26 15 L7.5 15 Z' fill='#e9c46a'/><ellipse cx='6.5' cy='29.5' rx='4' ry='1.6' fill='#1a0d06' stroke='none' opacity='0.55'/>`, 6, 29, 'pointer'),
+  // a click shows another side's army or city
+  look: svgCursor(
+    `<circle cx='12' cy='12' r='8.5' fill='rgba(233,196,106,0.25)' stroke-width='3.4'/><circle cx='12' cy='12' r='8.5' fill='none' stroke='#e9c46a' stroke-width='1.6'/>`
+    + `<path d='M18.5 18.5 L28 28' stroke-width='5' stroke-linecap='round'/><path d='M18.5 18.5 L28 28' stroke='#8a5a2b' stroke-width='2.6' stroke-linecap='round'/>`, 12, 12, 'help'),
+};
 
 /**
  * Runs a game: the turn loop (human turns wait for End Turn, computer turns play out on the
@@ -939,7 +958,7 @@ export class Controller {
     const q = g.s.quests[this.viewer];
     if (q) {
       const who = g.unit(q.hero);
-      const r = await ask('Quest', `<b>${who?.hero.name ?? 'Your hero'}</b>: ${q.text}${q.kind === 'kill' || q.kind === 'gold' ? ` (${q.done ?? 0} / ${q.n})` : ''}.`,
+      const r = await ask('Quest', `<b>${who?.hero.name ?? 'Your hero'}</b>: ${q.text}.<br><span class="dim">${g.questProgress(this.viewer).status}.</span>`,
         [{ label: 'Show on map', value: 'show', primary: true, disabled: q.t == null }, { label: 'Set aside', value: 'abandon', danger: true }, { label: 'Close', value: null }]);
       if (r === 'show') this.lookAtTile(q.t);
       if (r === 'abandon') { g.abandonQuest(this.viewer); toast('Quest set aside. No new quest for two turns.'); }
@@ -1178,7 +1197,7 @@ export class Controller {
     const city = !k && m && t >= 0 ? this._cityCentreAt(t, this.hoverPoint) : null;
     if (!k && !city && m && t >= 0 && g?.cityAt(t)) k = this._stackShownAt(t);
     this.view.setHover(k?.id ?? null, city?.id ?? null);
-    this._attackCursor(k, t);
+    this._cursor(k, city, t);
     let icon = null, text = '', cls = '';
     if (k) {
       const hero = k.units.find((u) => u.hero);
@@ -1278,22 +1297,31 @@ export class Controller {
     if (s.units.length > STACK_MAX) toast(`A group holds at most ${STACK_MAX} armies.`);
   }
 
-  /** Crossed swords for the pointer when a right click would send the selected group into battle this turn. */
-  _attackCursor(k, t) {
+  /** The pointer tells what a click does: swords where a right click attacks this turn, a banner
+   * where it marches the group, an arrow on your own armies (left click selects), a castle on a
+   * city's middle (left click opens it), a lens on other sides' armies and cities. */
+  _cursor(k, city, t) {
     const g = this.game, s = this.sel;
-    let attack = false;
-    if (g && s && s.owner === this.viewer && this.human && !this.busy && !dialogOpen()) {
-      const to = k && k.owner !== this.viewer ? k.t : t;
-      if (to >= 0 && to !== s.t) {
-        const key = `${s.group.join(',')}|${s.t}|${to}`;
-        if (this._atk?.key !== key) {
-          const plan = to === this.hoverTile && this.hoverPlan ? this.hoverPlan : g.plan(this.groupUnits(), s.t, to);
-          this._atk = { key, attack: !!plan?.attack && plan.turns[plan.turns.length - 1] === 0 };
+    let cur = '';
+    if (g && !this.busy && !dialogOpen()) {
+      let plan = null;
+      if (s && s.owner === this.viewer && this.human) {
+        const to = k && k.owner !== this.viewer ? k.t : t;
+        if (to >= 0 && to !== s.t) {
+          const key = `${s.group.join(',')}|${s.t}|${to}`;
+          if (this._atk?.key !== key) {
+            const p = to === this.hoverTile && this.hoverPlan ? this.hoverPlan : g.plan(this.groupUnits(), s.t, to);
+            this._atk = { key, plan: p ? { attack: !!p.attack && p.turns[p.turns.length - 1] === 0 } : null };
+          }
+          plan = this._atk.plan;
         }
-        attack = this._atk.attack;
       }
+      if (plan?.attack) cur = CURSORS.attack;
+      else if (k && k.owner === this.viewer) cur = CURSORS.select;
+      else if (city && city.owner === this.viewer) cur = CURSORS.city;
+      else if (plan) cur = CURSORS.move;
+      else if (k || city) cur = CURSORS.look;
     }
-    const cur = attack ? SWORDS_CURSOR : '';
     if (this.renderer.domElement.style.cursor !== cur) this.renderer.domElement.style.cursor = cur;
   }
 

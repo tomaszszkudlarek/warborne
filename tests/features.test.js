@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Game, VICTORY, HILL_DAYS, TIMED_DEFAULT_LIMIT, NEUTRAL_PROD_ROUND } from '../src/game/Game.js';
 import { UNITS } from '../src/game/data/units.js';
+import { HERO_CLASSES } from '../src/game/data/heroes.js';
 import { standing, BRIBE_GOLD } from '../src/game/diplomacy.js';
 import { makeSignposts } from '../src/game/signposts.js';
 import { newGame, loadMap } from './helpers.js';
@@ -452,4 +453,32 @@ test('a group with 1 MP left and only dearer ground around cannot act: the turn 
   assert.equal(g.canAct([u, v]), false);
   u.mp = 10;
   assert.equal(g.canAct([u, v]), true);
+});
+
+// --- quests ---------------------------------------------------------------------------------------------------
+test('a quest reports its progress', async () => {
+  const g = await newGame();
+  const pid = g.current.id;
+  const hero = g.heroes(pid)[0];
+  const q = g.getQuest(hero, 'easy');
+  assert.ok(q);
+  let p = g.questProgress(pid);
+  assert.equal(p.text, q.text);
+  assert.equal(p.days, 0);
+  assert.ok(p.status.length > 0);
+  if (q.t != null) assert.equal(p.dist, g.move.distance(g.stackOfUnit(hero.id).t, q.t));
+  q.kind = 'kill'; q.n = 3; q.done = 1;
+  p = g.questProgress(pid);
+  assert.match(p.status, /^1 of 3 enemy armies slain/);
+});
+
+test('hero attributes cost only ability points; spells wait for their level', async () => {
+  const g = await newGame();
+  const hero = g.heroes(g.current.id)[0];
+  const lv = HERO_CLASSES[hero.hero.cls].levels;
+  hero.hero.ap = 50;
+  const attr = lv.findIndex((l, i) => i >= hero.hero.level && !l.ability.spell);
+  const spell = lv.findIndex((l, i) => i >= hero.hero.level && l.ability.spell);
+  if (attr >= 0) assert.ok(g.buyAbility(hero, attr), `level-1 hero buys ${lv[attr].ability.text}`);
+  if (spell >= 0) assert.ok(!g.buyAbility(hero, spell), `${lv[spell].ability.text} waits for level ${spell + 1}`);
 });

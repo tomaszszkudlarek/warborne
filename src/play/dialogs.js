@@ -164,9 +164,10 @@ export function heroDialog(ctl, u) {
       const list = h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 12px' } });
       lv.forEach((l, i) => {
         const bought = hr.bought.includes(i);
-        const can = mine && !bought && i < hr.level && hr.ap >= l.cost;
-        list.append(h('div.row', { style: { fontSize: '12.5px', opacity: i < hr.level || bought ? 1 : 0.45, justifyContent: 'space-between' } },
-          h('span', h('b', { style: { color: bought ? 'var(--good)' : 'var(--ink)' } }, l.ability.text), h('span.faint', ` · L${i + 1}`)),
+        const open = g.abilityOpen(u, i);
+        const can = mine && !bought && open && hr.ap >= l.cost;
+        list.append(h('div.row', { style: { fontSize: '12.5px', opacity: open || bought ? 1 : 0.45, justifyContent: 'space-between' }, title: open ? '' : `A spell learned from level ${i + 1}` },
+          h('span', h('b', { style: { color: bought ? 'var(--good)' : 'var(--ink)' } }, l.ability.text), l.ability.spell ? h('span.faint', ` · spell, L${i + 1}`) : null),
           bought ? h('span.good', '✓') : h('button.btn', { style: { padding: '2px 8px', fontSize: '11.5px' }, disabled: !can, onclick: () => { g.buyAbility(u, i); render(); ctl.refresh(); } }, `${l.cost} AP`)));
       });
       box.append(list);
@@ -183,7 +184,14 @@ export function heroDialog(ctl, u) {
       box.append(h('h3', 'Spells'));
       if (!hr.spells.length) box.append(h('div.dim', `${cls.name}s learn spells as they rise in level.`));
       else box.append(h('div.row', hr.spells.map((id) => h('span.pill', { style: { borderColor: spellColor(id) } }, `${SPELL_GLYPH[id] ?? '✦'} ${SPELLS[id].name}${hr.active.includes(id) ? ' (in play)' : ''}`))));
-      if (hr.quest) box.append(h('h3', 'Quest'), h('div', `❗ ${hr.quest}`));
+      const qp = hr.quest && g.s.quests[owner]?.hero === u.id ? g.questProgress(owner) : null;
+      if (qp) {
+        box.append(h('h3', `Quest — ${qp.difficulty}`),
+          h('div.row', { style: { justifyContent: 'space-between' } }, h('b', `❗ ${qp.text}`),
+            qp.t != null ? h('button.btn', { style: { padding: '2px 8px', fontSize: '11.5px' }, onclick: () => { close(); ctl.lookAtTile(qp.t); } }, 'Show on map') : null),
+          qp.n ? h('div.bar', { style: { marginTop: '5px' } }, h('i', { style: { width: `${Math.max(3, Math.min(100, (qp.done / qp.n) * 100))}%` } })) : null,
+          h('div.dim', { style: { fontSize: '12px', marginTop: '3px' } }, `${qp.status} · ${qp.days ? `${qp.days} day${qp.days > 1 ? 's' : ''} on the quest` : 'accepted today'}`));
+      } else if (hr.quest) box.append(h('h3', 'Quest'), h('div', `❗ ${hr.quest}`));
       box.append(h('div.buttons',
         mine && hr.spells.length ? h('button.btn', { onclick: () => { close(); ctl.openCast(u); } }, '✦ Cast a spell') : null,
         h('button.btn.primary', { onclick: () => close() }, 'Close')));
