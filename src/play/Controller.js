@@ -17,7 +17,7 @@ import { h, ask, toast, banner, sleep, dialogOpen, closeTopDialog, closeAllDialo
 import { levelUpShow } from './levelup.js';
 import {
   cityDialog, heroDialog, castDialog, teleportDialog, captureDialog, searchDialog, offersDialog,
-  vectorDialog, reportsDialog, stackInfoDialog, gameOverDialog, heroEmergesDialog, proposalDialog, surrenderDialog,
+  vectorDialog, vectoringDialog, reportsDialog, stackInfoDialog, gameOverDialog, heroEmergesDialog, proposalDialog, surrenderDialog,
   beginDialog, heroFallenDialog,
 } from './dialogs.js';
 import { standing } from '../game/diplomacy.js';
@@ -38,6 +38,8 @@ const END_TURN_GUARD = 800;
 const CAPTURE_DELAY = 1000; // ms after the battle screen closes before a taken castle is announced (user)
 // A click on a castle opens the city only this close to its middle (in tiles); elsewhere it takes the stack in that corner.
 const CITY_CLICK = 0.42;
+/** "Only near me": enemy marches within this many tiles of the viewer's armies or cities are shown (user). */
+const NEAR_WATCH = 20;
 // Context cursors (SVG, drawn on a dark outline so they read on any ground).
 const svgCursor = (body, x, y, fallback) => `url("data:image/svg+xml,${encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g stroke='#1a0d06' stroke-width='1.2' stroke-linejoin='round'>${body}</g></svg>`,
@@ -444,7 +446,7 @@ export class Controller {
     const owner = g.stackOfUnit(units[0].id)?.owner ?? move.stack.owner;
     const mine = owner === this.viewer;
     // "Show enemy marches" off: other sides' armies just appear where they went
-    const visible = mine || (this.opts.showEnemies !== false && move.steps.some((t) => this.seen(t)));
+    const visible = mine || this._watchEnemy(move.steps);
     if (!visible) { this.view.sync(); return; }
     this.view.speed = mine ? 1 : ENEMY_MARCH_SPEED; // other sides' marches play faster
     const fly = move.plan?.mover?.fly ?? false;
@@ -595,7 +597,7 @@ export class Controller {
   async _castOnScreen(out) {
     const g = this.game;
     const sp = SPELLS[out.spell];
-    const visible = out.stack?.owner === this.viewer || (this.opts.showEnemies !== false && this.seen(out.from));
+    const visible = out.stack?.owner === this.viewer || this._watchEnemy([out.from]);
     if (out.summoned) await this.view.ensureModels(out.summoned.map((u) => u.type));
     if (!visible) { this.view.sync(); return; }
     const pos = this.view.worldPos(out.from);
@@ -943,6 +945,7 @@ export class Controller {
   openHero(hero) { if (hero) heroDialog(this, hero).then(() => this.refresh()); }
   openCity(city) { if (city) cityDialog(this, city).then(() => this.refresh()); }
   openReports() { if (this.game) reportsDialog(this).then(() => this.refresh()); }
+  openVectoring() { if (this.game) vectoringDialog(this).then(() => this.refresh()); }
 
   async openVector() {
     const s = this.sel, g = this.game;
@@ -1034,17 +1037,30 @@ export class Controller {
   /** The checkboxes for watching the other sides (in-game Options and the new-game screen). */
   watchOptions() {
     const o = this.opts;
+    const near = h('input', { type: 'checkbox', checked: !!o.enemiesNear, disabled: o.showEnemies === false, onchange: (e) => { o.enemiesNear = e.target.checked; this._saveOpts(); } });
     return [
-      h('label.chk', { title: 'Off: enemy armies are not animated on the march — they just appear where they went, and the turn passes quicker.' }, h('input', { type: 'checkbox', checked: o.showEnemies !== false, onchange: (e) => { o.showEnemies = e.target.checked; this._saveOpts(); } }), 'Show enemy movements'),
+      h('label.chk', { title: 'Off: enemy armies are not animated on the march — they just appear where they went, and the turn passes quicker.' }, h('input', { type: 'checkbox', checked: o.showEnemies !== false, onchange: (e) => { o.showEnemies = e.target.checked; near.disabled = !o.showEnemies; this._saveOpts(); } }), 'Show enemy movements'),
+      h('label.chk', { style: { marginLeft: '22px' }, title: `Only the enemy marches that pass within ${NEAR_WATCH} tiles of your armies or cities are shown; the rest just appear where they went.` }, near, `Only near my armies & cities (${NEAR_WATCH} tiles)`),
       h('label.chk', { title: 'The camera chases the computer armies on the march.' }, h('input', { type: 'checkbox', checked: o.followAI, onchange: (e) => { o.followAI = e.target.checked; this.followAI = o.followAI; this._saveOpts(); } }), 'Camera follows enemy armies'),
     ];
+  }
+
+  /** Whether another side's doings on these tiles are shown: in view, and (with "only near me")
+   * within NEAR_WATCH tiles of one of the viewer's armies or cities. */
+  _watchEnemy(tiles) {
+    const o = this.opts, g = this.game;
+    if (o.showEnemies === false || !tiles.some((t) => this.seen(t))) return false;
+    if (!o.enemiesNear || this.viewer == null) return true;
+    const r2 = NEAR_WATCH * NEAR_WATCH;
+    const mine = [...g.s.stacks.filter((k) => k.owner === this.viewer).map((k) => k.t), ...g.citiesOf(this.viewer).map((c) => c.t)].map((t) => g.tileXY(t));
+    return tiles.some((t) => { const [x, y] = g.tileXY(t); return mine.some(([a, b]) => (a - x) ** 2 + (b - y) ** 2 <= r2); });
   }
 
   get opts() {
     if (!this._opts) {
       const saved = JSON.parse(localStorage.getItem('wl.opts') || '{}');
       if (!saved.aaV) { delete saved.aa; saved.aaV = 1; } // 2× became the default: forget the old saved 4×
-      this._opts = { followAI: true, showEnemies: true, labels: true, shadows: true, grid: false, bloom: 0.35, aa: 2, resolution: 1, music: 1, sfx: 1, ...saved };
+      this._opts = { followAI: true, showEnemies: true, enemiesNear: false, labels: true, shadows: true, grid: false, bloom: 0.35, aa: 2, resolution: 1, music: 1, sfx: 1, ...saved };
     }
     return this._opts;
   }
@@ -1182,7 +1198,6 @@ export class Controller {
     this._hoverPick(t);
     if (t === this.hoverTile) return;
     this.hoverTile = t;
-    if (t >= 0) { const [x, y] = this.game.tileXY(t); this.world.highlightTile(x, y); } else this.world.highlightTile(-1, -1);
     this._previewPlan();
     this.hud.showTip(t);
   }
@@ -1221,7 +1236,10 @@ export class Controller {
   _previewPlan() {
     const g = this.game, s = this.sel, t = this.hoverTile;
     this.hoverPlan = null;
-    if (!g || !s || s.owner !== this.viewer || !this.human || this.busy) {
+    const moving = g && s && s.owner === this.viewer && this.human && !this.busy;
+    // the tile under the pointer is outlined only while a group of yours is about to march
+    if (moving && t >= 0) { const [x, y] = g.tileXY(t); this.world.highlightTile(x, y); } else this.world.highlightTile(-1, -1);
+    if (!moving) {
       const k = s && g?.stack(s.stack);
       if (k?.path?.length > 1 && s.owner === this.viewer) {
         const plan = g.plan(this.groupUnits(), k.t, k.path[k.path.length - 1]);
@@ -1399,6 +1417,7 @@ export class Controller {
       case 'Enter': this.endTurnClicked(); break;
       case 'KeyR': this.openReports(); break;
       case 'KeyP': this.openDiplomacy(); break;
+      case 'KeyV': this.openVectoring(); break;
       default: break;
     }
   }

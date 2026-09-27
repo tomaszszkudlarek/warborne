@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { h, ask, toast } from './dom.js';
-import { listMaps, loadMap, listSaves, getSave, deleteSave, readSaveFile } from './storage.js';
+import { listMaps, loadMap, loadSetup, saveSetup, listSaves, getSave, deleteSave, readSaveFile } from './storage.js';
 import { newGameState, DEFAULT_OPTIONS, VICTORY, TIMED_DEFAULT_LIMIT } from '../game/Game.js';
 import { SIDES, AI_LEVELS } from '../game/data/sides.js';
 import { TileInfo, Tile, Flag } from '../generator/terrainTypes.js';
@@ -113,7 +113,10 @@ export class MainMenu {
     this.el.innerHTML = '';
     const box = h('div.setup.frame');
     this.el.append(h('div.shade'), box);
-    const state = { file: null, map: null, players: [], options: { ...DEFAULT_OPTIONS } };
+    // the last new game's choices come back: map, who plays each side, the rules
+    const last = loadSetup();
+    const state = { file: null, map: null, players: [], options: { ...DEFAULT_OPTIONS, ...(last.options ?? {}) } };
+    const remember = () => saveSetup({ file: state.file, options: state.options, seats: Object.fromEntries(state.players.map((p) => [p.side, { human: p.human, ai: p.ai, off: p.off }])) });
     const mapsEl = h('div.maps');
     const sidesEl = h('div.sides');
     const info = h('div.dim', { style: { fontSize: '12.5px', margin: '6px 0' } });
@@ -122,7 +125,7 @@ export class MainMenu {
       h('h2', 'New Game'),
       h('h3', { style: { color: 'var(--gold)', margin: '4px 0 8px', fontFamily: 'Cinzel' } }, 'Choose a map'), mapsEl,
       h('h3', { style: { color: 'var(--gold)', margin: '16px 0 8px', fontFamily: 'Cinzel' } }, 'Sides'), info, sidesEl,
-      h('h3', { style: { color: 'var(--gold)', margin: '16px 0 8px', fontFamily: 'Cinzel' } }, 'Options'), this._options(state.options),
+      h('h3', { style: { color: 'var(--gold)', margin: '16px 0 8px', fontFamily: 'Cinzel' } }, 'Options'), this._options(state.options, remember),
       h('div.buttons', { style: { display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '18px' } }, h('button.btn', { onclick: () => this.show() }, 'Back'), startBtn),
     );
     const cards = [];
@@ -140,13 +143,16 @@ export class MainMenu {
           card.classList.add('sel');
           state.file = m.file;
           state.map = map;
-          state.players = sides.sort((a, b) => a - b).map((side, i) => ({ side, human: i === 0, ai: 'lord', off: false }));
+          const seats = state.file === last.file ? last.seats ?? {} : {};
+          state.players = sides.sort((a, b) => a - b).map((side, i) => ({ side, human: i === 0, ai: 'lord', off: false, ...(seats[side] ?? {}) }));
+          for (const p of state.players) if (!AI_LEVELS[p.ai]) p.ai = 'lord';
           drawSides();
-          startBtn.disabled = false;
+          remember();
+          startBtn.disabled = state.players.filter((x) => !x.off).length < 2;
           // show the chosen land behind the menu
           if (this.bgMap?.meta?.name !== map.meta?.name) { this.bgMap = forGame(map); this.buildWorld(this.bgMap); }
         };
-        if (!state.file) card.onclick();
+        if (!state.file ? !last.file || !maps.some((x) => x.file === last.file) || last.file === m.file : false) card.onclick();
       }).catch((e) => { card.firstChild.textContent = 'Could not load'; console.error(e); });
     }
     const drawSides = () => {
@@ -156,7 +162,7 @@ export class MainMenu {
       for (const p of state.players) {
         const s = SIDES[p.side];
         const sel = h('select', {
-          onchange: (e) => { const v = e.target.value; p.off = v === 'off'; p.human = v === 'human'; if (!p.off && !p.human) p.ai = v; startBtn.disabled = state.players.filter((x) => !x.off).length < 2; },
+          onchange: (e) => { const v = e.target.value; p.off = v === 'off'; p.human = v === 'human'; if (!p.off && !p.human) p.ai = v; startBtn.disabled = state.players.filter((x) => !x.off).length < 2; remember(); },
         },
         h('option', { value: 'human', selected: p.human && !p.off }, 'Human'),
         Object.entries(AI_LEVELS).map(([k, l]) => h('option', { value: k, selected: !p.human && !p.off && p.ai === k }, `Computer — ${l.name}`)),
@@ -166,7 +172,7 @@ export class MainMenu {
     };
   }
 
-  _options(o) {
+  _options(o, onChange = null) {
     const row = (label, input, title = null) => h('div.o', { title }, h('span', label), input);
     const chk = (k) => h('input', { type: 'checkbox', checked: o[k], onchange: (e) => (o[k] = e.target.checked) });
     const limit = h('input', { type: 'number', value: o.turnLimit, min: 0, max: 500, style: { width: '64px' }, onchange: (e) => (o.turnLimit = +e.target.value) });
@@ -179,7 +185,7 @@ export class MainMenu {
         if (VICTORY[o.victory].timed && !o.turnLimit) { o.turnLimit = TIMED_DEFAULT_LIMIT; limit.value = o.turnLimit; }
       },
     }, Object.entries(VICTORY).map(([k, v]) => h('option', { value: k, selected: o.victory === k }, v.name)));
-    return h('div.opts',
+    const el = h('div.opts',
       row('Victory', victory), vdesc,
       row('Starting gold', h('input', { type: 'number', value: o.startGold, min: 0, max: 5000, step: 50, style: { width: '80px' }, onchange: (e) => (o.startGold = +e.target.value) })),
       row('Neutral cities', h('select', { onchange: (e) => (o.neutrals = e.target.value) }, ['weak', 'normal', 'strong'].map((v) => h('option', { value: v, selected: o.neutrals === v }, v[0].toUpperCase() + v.slice(1))))),
@@ -196,6 +202,8 @@ export class MainMenu {
       // viewing preferences (also under Menu → Options while playing)
       h('div', { style: { gridColumn: '1 / -1', display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '6px' } }, ...this.ctl.watchOptions()),
     );
+    el.addEventListener('change', () => onChange?.()); // after the field's own handler
+    return el;
   }
 
   async start(setup) {

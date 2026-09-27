@@ -80,3 +80,11 @@ export async function readSaveFile(file) {
   if (j.format !== 'warlords-save/1') throw new Error('Not a Warlords save file');
   return j.state;
 }
+
+/** The new-game screen's last choices: { file, options, seats: { side: { human, ai, off } } }. */
+export function loadSetup() {
+  try { return JSON.parse(localStorage.getItem('wl.newGame') || '{}'); } catch { return {}; }
+}
+export function saveSetup(setup) {
+  try { localStorage.setItem('wl.newGame', JSON.stringify(setup)); } catch { /* storage full or blocked */ }
+}

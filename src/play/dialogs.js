@@ -14,6 +14,7 @@ import { standing, BRIBE_GOLD, STATUS } from '../game/diplomacy.js';
 import { SPECIAL_TYPES, REBUILD_SITE } from '../game/specials.js';
 import { SPELL_FX } from '../render/SpellFX.js';
 import { art } from './art.js';
+import { vectorMap, vectorHelp } from './vectormap.js';
 
 /** A spell's or item's icon: its painting when there is one, else the glyph. */
 const icon = (url, glyph) => (url ? h('img', { src: url, style: { width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' } }) : glyph);
@@ -112,13 +113,14 @@ export function cityDialog(ctl, city) {
         city.level < 3 ? h('button.btn.primary', { disabled: p.gold < cost, onclick: () => { if (g.buildUp(city)) { ctl.view.refreshCastles(); render(); ctl.refresh(); } } }, `Raise to ${CastleLevels[city.level + 1].name} — ${cost} gp`)
           : h('span.dim', 'The walls are as strong as they can be.'),
         h('span.dim', { style: { fontSize: '12px' } }, 'Walls add to the defence of every army in the city.')));
-      // vectoring
+      // vectoring: drag arrows between cities on the map
       box.append(h('h3', 'Vectoring'));
-      const sel = h('select', { onchange: (e) => { g.setVector(city, e.target.value === '' ? null : g.s.cities[+e.target.value]); ctl.refresh(); } },
-        h('option', { value: '' }, '— new armies stay here —'),
-        g.citiesOf(city.owner).filter((c) => c !== city).map((c) => h('option', { value: c.id, selected: city.vector === c.id }, c.name)));
-      const vt = city.vector != null ? g.vectorTurns(city, g.s.cities[city.vector]) : 2;
-      box.append(h('div.row', h('span', 'Send new armies to'), sel, h('span.dim', { style: { fontSize: '12px' } }, g.s.options.timedVectoring ? `(they arrive ${city.vector != null ? vt : '2–5'} turns later)` : '(they arrive two turns later)')));
+      const to = city.vector != null ? g.s.cities[city.vector] : null;
+      box.append(vectorMap(ctl, { focus: city, maxW: 590, maxH: 300, onChange: () => { render(); ctl.refresh(); } }),
+        h('div.row', { style: { fontSize: '12px', marginTop: '4px' } },
+          h('span', to ? `New armies go to ${to.name} — they arrive ${g.vectorTurns(city, to)} turns later.` : 'New armies stay here.'),
+          to ? h('button.btn', { style: { padding: '2px 8px', fontSize: '12px', marginLeft: 'auto' }, onclick: () => { g.setVector(city, null); render(); ctl.refresh(); } }, 'Keep them here') : null),
+        h('div.dim', { style: { fontSize: '11.5px' } }, vectorHelp('production')));
       const inc = g.incoming(city);
       if (inc.length) box.append(h('div.dim', { style: { fontSize: '12px', marginTop: '6px' } }, `On the way here: ${inc.map((v) => `${v.n} from ${v.from != null ? g.s.cities[v.from].name : 'afar'} (day ${v.round})`).join(', ')}.`));
       box.append(h('div.buttons',
@@ -400,9 +402,25 @@ export function vectorDialog(ctl, from) {
   const timed = g.s.options.timedVectoring;
   return dialog((close) => [
     h('h2', 'Vector group'), h('div.sub', timed ? 'The group leaves now; the farther the city, the longer the road (2–5 turns).' : 'The group leaves now and arrives at the chosen city in two turns.'),
-    h('div', { style: { display: 'flex', flexDirection: 'column', gap: '4px' } },
-      g.citiesOf(ctl.viewer).filter((c) => c !== from).map((c) => h('button.btn', { onclick: () => close(c) }, `${c.capital ? '♛ ' : ''}${c.name}${timed ? ` — ${g.vectorTurns(from, c)} turns` : ''}`))),
-  ], { dismiss: null });
+    vectorMap(ctl, { focus: from, mode: 'group', onPick: (c) => close(c) }),
+    h('div.dim', { style: { fontSize: '11.5px', marginTop: '4px' } }, vectorHelp('group')),
+  ], { dismiss: null, width: '640px' });
+}
+
+/** The vectoring network of the viewer's whole empire. */
+export function vectoringDialog(ctl) {
+  return dialog((close, box) => {
+    const render = () => {
+      box.querySelectorAll(':scope > :not(.close)').forEach((e) => e.remove());
+      const g = ctl.game, n = g.citiesOf(ctl.viewer).filter((c) => c.vector != null).length;
+      box.append(h('h2', 'Vectoring'), h('div.sub', n ? `${n} cit${n === 1 ? 'y sends' : 'ies send'} new armies elsewhere.` : 'Every city keeps its new armies.'),
+        vectorMap(ctl, { maxW: 820, maxH: 560, onChange: () => { render(); ctl.refresh(); } }),
+        h('div.dim', { style: { fontSize: '11.5px', marginTop: '4px' } }, vectorHelp('production')),
+        h('div.buttons', h('button.btn.primary', { onclick: () => close() }, 'Done')));
+    };
+    render();
+    return [];
+  }, { dismiss: undefined, width: '860px' });
 }
 
 // --- reports ------------------------------------------------------------------------------------------------------------

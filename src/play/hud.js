@@ -232,6 +232,7 @@ export class Hud {
         `👑 ${g.s.hill.holder >= 0 ? `${g.player(g.s.hill.holder).name.split(' ').pop()} ${g.hillDaysLeft()}d` : 'unheld'}`) : null,
       h('div.spacer'),
       g.diplo.on ? h('button.btn' + (g.diplo.hasNews(me.id) ? '.news' : ''), { onclick: () => c.openDiplomacy(), title: 'Diplomacy: war, peace, alliances (P)' }, '⚔️ Diplomacy') : null,
+      h('button.btn', { onclick: () => c.openVectoring(), title: 'Vectoring: where each city sends its new armies (V)' }, '➶ Vectoring'),
       h('button.btn', { onclick: () => c.openReports() }, '📜 Reports'),
       h('button.btn', { onclick: () => c.toggleFullscreen(), title: document.fullscreenElement ? 'Leave full screen' : 'Full screen' }, document.fullscreenElement ? '🗗 Window' : '⛶ Full screen'),
       h('button.btn', { onclick: () => c.openGameMenu() }, '☰ Menu'),
