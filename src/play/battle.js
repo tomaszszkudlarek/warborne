@@ -5,6 +5,7 @@ import { music } from './music.js';
 import { SIDES } from '../game/data/sides.js';
 import { UNITS } from '../game/data/units.js';
 import { HERO_CLASSES } from '../game/data/heroes.js';
+import { hoverTip, strengthHtml } from './strtip.js';
 
 const SPECIAL = {
   missile: { icon: '🏹', text: 'Arrows!' },
@@ -46,8 +47,11 @@ export function showBattle(battle, opts) {
     const cards = new Map();
     const card = (s) => {
       const { u } = units.get(s.id);
-      const el = h('div.card', { vars: { '--c': color(ownerOf(s.id)) }, title: `${nameOf(u)} — strength ${s.str}, hits ${s.hits}` },
+      const side = units.get(s.id).side;
+      const why = s.parts && start.detail;
+      const el = h('div.card', { vars: { '--c': color(ownerOf(s.id)) }, title: why ? null : `${nameOf(u)} — strength ${s.str}, hits ${s.hits}` },
         h('img', { src: P.url(u.type, ownerOf(s.id)), draggable: 'false', 'data-type': u.type, 'data-owner': ownerOf(s.id) }), pips(s.id), h('div.str', s.str));
+      if (why) hoverTip(el, () => strengthHtml(u, { ...s, bonus: start.detail[side], notes: s.notes ?? [] }, { head: side === 'att' ? 'attacking' : 'defending' }));
       cards.set(s.id, el);
       return el;
     };

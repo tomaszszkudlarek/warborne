@@ -12,6 +12,7 @@ import { signpostLines } from '../game/signposts.js';
 import { SPECIAL_TYPES } from '../game/specials.js';
 import { standing } from '../game/diplomacy.js';
 import { ruinChance } from '../game/combat.js';
+import { hoverTip, mapStrengthHtml } from './strtip.js';
 
 /** The strategic map with the game on it, drawn as pixel art (one block per tile): owners'
  * cities and armies in view as bold blocks in their side's colour, unexplored land dark. */
@@ -162,18 +163,18 @@ export function marks(u) {
 }
 
 /** A portrait card for an army: strength shield, movement banner, marks. */
-export function unitCard(u, owner, portraits, { sel = false, off = false, onclick = null, title = null } = {}) {
+export function unitCard(u, owner, portraits, { sel = false, off = false, onclick = null, title = null, tip = null } = {}) {
   const s = unitStats(u);
   const color = owner >= 0 ? SIDES[owner].color : '#888';
   const el = h('div.card' + (sel ? '.sel' : '') + (off ? '.off' : '') + (u.hero ? '.hero' : ''), {
     vars: { '--c': color }, onclick,
-    title: title ?? `${unitName(u)}${u.hero ? ` — ${typeName(u)} level ${u.hero.level}` : ''}\nStrength ${s.str} · Hits ${s.hits} · Move ${fmt(u.mp)}/${s.move}`,
+    title: tip ? null : title ?? `${unitName(u)}${u.hero ? ` — ${typeName(u)} level ${u.hero.level}` : ''}\nStrength ${s.str} · Hits ${s.hits} · Move ${fmt(u.mp)}/${s.move}`,
   },
   h('img', { src: portraits.url(u.type, owner), draggable: 'false', 'data-type': u.type, 'data-owner': owner }),
   h('div.marks', marks(u)),
   u.hero ? h('div.lvl', `L${u.hero.level}`) : null,
   h('div.str', s.str), h('div.mp', Math.floor(u.mp)));
-  return el;
+  return tip ? hoverTip(el, tip) : el;
 }
 
 export class Hud {
@@ -263,8 +264,13 @@ export class Hud {
     box.append(h('div.title', h('div.crest', { vars: { '--c': owner >= 0 ? SIDES[owner].color : '#888' }, style: { width: '16px', height: '19px' } }), title, h('span.where', `${TileInfo[g.map.tiles[sel.t]].name} · ${tx},${ty}`)));
     const mine = owner === c.viewer && c.human;
     const pal = h('div.palette');
+    // strength tips: as defenders of this square (the whole garrison) and attacking with the group
+    const defenders = g.defendersAt(sel.t)?.units ?? all;
+    const attackers = all.filter((u) => group.has(u.id));
+    const ctx = g.battleContext({ t: sel.t, owner }, sel.t);
     for (const u of all) {
       pal.append(unitCard(u, owner, c.portraits, {
+        tip: () => mapStrengthHtml(u, defenders.includes(u) ? defenders : all, attackers, ctx),
         sel: group.has(u.id), off: !group.has(u.id),
         onclick: mine ? (e) => c.toggleGroup(u.id, e.shiftKey || e.detail === 2) : null,
       }));

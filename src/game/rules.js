@@ -12,22 +12,23 @@ export const CITY_MAX = 32;
 
 const addAb = (into, ab, k = 1) => { for (const [a, n] of Object.entries(ab ?? {})) into[a] = (into[a] ?? 0) + n * k; };
 
-/** Everything a hero carries and knows that has an effect: [{ str, hits, move, view, ab, ... }]. */
-function heroEffects(u) {
+/** Everything a hero carries and knows that has an effect: [{ str, hits, move, view, ab, ..., src }]
+ * (`src` names where it comes from: a level, an item or a spell, for the bonus tooltips). */
+export function heroEffects(u) {
   const h = u.hero, cls = HERO_CLASSES[h.cls], fx = [];
   for (const i of h.bought) {
-    const a = cls.levels[i].ability;
-    if (a.stat) fx.push({ [a.stat]: a.n });
-    else if (a.ab) fx.push({ ab: { [a.ab]: a.n } });
-    else if (a.bonus) fx.push({ bonus: a.bonus });
-    else if (a.fly) fx.push({ fly: true });
-    else if (a.speed) fx.push({ speed: true });
-    else if (a.invisible) fx.push({ invisible: true });
-    else if (a.income) fx.push({ income: a.income });
-    else if (a.engineer) fx.push({ engineer: a.engineer });
+    const a = cls.levels[i].ability, src = `${cls.levels[i].title} (level ${i + 1})`;
+    if (a.stat) fx.push({ [a.stat]: a.n, src });
+    else if (a.ab) fx.push({ ab: { [a.ab]: a.n }, src });
+    else if (a.bonus) fx.push({ bonus: a.bonus, src });
+    else if (a.fly) fx.push({ fly: true, src });
+    else if (a.speed) fx.push({ speed: true, src });
+    else if (a.invisible) fx.push({ invisible: true, src });
+    else if (a.income) fx.push({ income: a.income, src });
+    else if (a.engineer) fx.push({ engineer: a.engineer, src });
   }
-  for (const k of h.items) if (ITEMS[k]) fx.push(ITEMS[k].fx);
-  for (const s of h.active) if (SPELLS[s]?.fx) fx.push(SPELLS[s].fx);
+  for (const k of h.items) if (ITEMS[k]) fx.push({ ...ITEMS[k].fx, src: ITEMS[k].name });
+  for (const s of h.active) if (SPELLS[s]?.fx) fx.push({ ...SPELLS[s].fx, src: `${SPELLS[s].name} spell` });
   return fx;
 }
 
@@ -73,6 +74,23 @@ export function unitStats(u) {
   s.hits = Math.max(1, s.hits);
   s.move = Math.max(1, s.move);
   return s;
+}
+
+/**
+ * Where an army's own strength comes from, [{ label, n }]; the sum (at least 1) is unitStats().str.
+ * Stack-wide bonuses (group strength, leadership, morale ...) are added in combat (combat.js).
+ */
+export function strengthSources(u) {
+  const out = [];
+  if (u.hero) {
+    const c = HERO_CLASSES[u.hero.cls];
+    out.push({ label: `${c.name} base`, n: c.str });
+    for (const fx of heroEffects(u)) if (fx.str) out.push({ label: fx.src, n: fx.str });
+  } else out.push({ label: `${UNITS[u.type]?.name ?? u.type} base`, n: UNITS[u.type]?.str ?? 1 });
+  if (u.trained?.str) out.push({ label: 'Trained at a smithy', n: u.trained.str });
+  if (u.blessed) out.push({ label: 'Blessed at a shrine', n: 1 });
+  if (u.poisoned) out.push({ label: 'Poisoned', n: -1 });
+  return out;
 }
 
 /**

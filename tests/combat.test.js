@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { fight, odds, TERRAIN_BONUS } from '../src/game/combat.js';
+import { fight, odds, TERRAIN_BONUS, battleStrength } from '../src/game/combat.js';
 
 let nextId = 1;
 const unit = (type, extra = {}) => ({ id: nextId++, type, mp: 16, medals: 0, blessed: false, poisoned: false, diseased: false, paralysed: false, ...extra });
@@ -93,4 +93,28 @@ test('medals only go to surviving attackers of a won battle, at most 4', () => {
       assert.notEqual(id, att[0].id, 'a 4-medal army gets no more');
     }
   }
+});
+
+test('the strength breakdown adds up to what the battle uses', () => {
+  const hero = unit('paladin', { hero: { cls: 'paladin', name: 'Sir Test', level: 3, xp: 10, ap: 0, bought: [0, 1, 2], items: ['bannerlead'], spells: [], active: [] } });
+  const att = [hero, ...Array.from({ length: 6 }, () => unit('elvencavalry', { blessed: true }))];
+  const def = [unit('orc'), unit('orc', { blessed: true }), unit('pikeman')];
+  const ctx = { rng: seeded(9), fortify: 2, terrain: 'forest' };
+  const start = fight(att, def, ctx).log.find((e) => e.t === 'start');
+  for (const [side, own, foes] of [['att', att, def], ['def', def, att]]) {
+    for (const u of own) {
+      const b = battleStrength(u, own, foes, ctx, side);
+      const snap = start[side].find((x) => x.id === u.id);
+      assert.equal(b.str, snap.str, `${u.type} strength`);
+      assert.equal(b.bonus.total, start.bonus[side]);
+      const parts = [...b.parts, ...b.notes].reduce((n, p) => n + p.n, 0);
+      assert.equal(Math.max(1, parts + b.bonus.total), b.str, `${u.type} parts sum`);
+    }
+  }
+  // elven cavalry: 5 + blessed 1 + forest 1 + stack bonus 5 (morale 6 + 1 = 7, capped at 5; leadership 1) = 12
+  const cav = battleStrength(att[1], att, def, ctx, 'att');
+  assert.equal(cav.str, 12);
+  assert.deepEqual(cav.bonus.terms.map((t) => t.raw), [1, 7, 0]);
+  assert.deepEqual(cav.bonus.terms.map((t) => t.n), [1, 5, 0]);
+  assert.equal(cav.bonus.total, 5);
 });

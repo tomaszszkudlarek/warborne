@@ -126,6 +126,15 @@ h1, h2, h3, .cinzel { font-family: Cinzel, serif; letter-spacing: 0.04em; }
 /* ---------- hover tooltip ---------- */
 #tip { position: fixed; left: 12px; bottom: 12px; padding: 9px 12px; font-size: 12.5px; min-width: 210px; max-width: 320px; z-index: 14; pointer-events: none; opacity: 0; transition: opacity 0.12s; }
 #tip.visible { opacity: 1; }
+#strtip { position: fixed; left: 0; top: 0; padding: 9px 12px; font-size: 12px; width: 300px; z-index: 300; pointer-events: none; opacity: 0; transition: opacity 0.1s; }
+#strtip.visible { opacity: 1; }
+#strtip .t { font-family: Cinzel, serif; font-weight: 700; font-size: 14px; }
+#strtip .sec { margin: 7px 0 2px; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+#strtip .r { display: flex; justify-content: space-between; gap: 10px; line-height: 1.45; }
+#strtip .r b { font-variant-numeric: tabular-nums; }
+#strtip .r.sum { border-top: 1px solid var(--edge-soft); margin-top: 2px; padding-top: 1px; }
+#strtip .r.total { border-top: 1px solid var(--edge); margin-top: 6px; padding-top: 3px; color: var(--gold-hi); font-size: 13px; }
+#strtip .why { color: var(--ink-dim); font-size: 11px; line-height: 1.4; margin: 0 0 2px 8px; }
 #tip .t { font-family: Cinzel, serif; font-weight: 700; font-size: 14px; margin-bottom: 2px; }
 
 /* ---------- toasts / banner ---------- */

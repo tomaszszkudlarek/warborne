@@ -13,14 +13,115 @@
 //  4. Melee rounds: both roll 1..dice; a roll <= strength succeeds. One success against one
 //     failure costs the loser a hit (plus trample against non-flyers). Medals roll a second,
 //     smaller die and keep the better result.
-import { unitStats, stackEffects, unitPower } from './rules.js';
+import { unitStats, unitPower, heroEffects, strengthSources, unitName } from './rules.js';
 import { UNITS } from './data/units.js';
 
 export const DICE = 20;
 export const TERRAIN_BONUS = 1; // strength of an army fighting on terrain it has a move bonus for
 export const MEDAL_CHANCE = 0.18; // chance per surviving attacker of a won battle
-const MEDAL_DIE = [0, 30, 26, 22, 18];
+export const MEDAL_DIE = [0, 30, 26, 22, 18];
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const sum = (parts) => parts.reduce((n, p) => n + p.n, 0);
+
+/** Strength and hits the heroes of a stack give every army in it (items, spells): { str: [{ label, n }], hits }. */
+export function groupBoosts(units) {
+  const str = [];
+  let hits = 0;
+  for (const o of units) {
+    if (!o.hero) continue;
+    for (const fx of heroEffects(o)) {
+      if (fx.grpStr) str.push({ label: `${fx.src} (${o.hero.name})`, n: fx.grpStr });
+      hits += fx.grpHits ?? 0;
+    }
+  }
+  return { str, hits };
+}
+
+/**
+ * An army's battle strength before the stack bonus: its own strength (level, items, blessing,
+ * training ...), its heroes' group strength, the terrain it fights on and banding.
+ * `units`: its side; ctx: fight()'s (terrain). Returns { str, hits, parts: [{ label, n }] }
+ * (parts only with `detail`).
+ */
+export function armyStrength(u, units, ctx = {}, group = groupBoosts(units), detail = true) {
+  const s = unitStats(u);
+  const parts = [];
+  if (detail) {
+    parts.push(...strengthSources(u));
+    const own = sum(parts);
+    if (own < s.str) parts.push({ label: 'Strength is at least 1', n: s.str - own });
+  }
+  let str = s.str;
+  const add = (label, n) => { str += n; if (detail) parts.push({ label, n }); };
+  for (const g of group.str) add(g.label, g.n);
+  if (ctx.terrain && (s.bonus.has(ctx.terrain) || s.bonus.has('all'))) {
+    add(`Fighting on ${ctx.terrain} (${s.bonus.has(ctx.terrain) ? 'its home terrain' : 'all-terrain army'})`, TERRAIN_BONUS);
+  }
+  // banding: +1 strength per other army of the same type, up to the bonus
+  const b = s.ab.banding;
+  if (b) {
+    const n = Math.min(b, units.filter((o) => o !== u && o.type === u.type).length);
+    if (n) add(`Banding (${n} more ${UNITS[u.type]?.name ?? u.type})`, n);
+  }
+  return { str, hits: s.hits + group.hits, parts, stats: s };
+}
+
+export const STACK_TERMS = [['leadership', 'chaos'], ['morale', 'fear'], ['fortify', 'siege']];
+/** Who in a stack has ability k: [{ label, n }], plain armies of a type counted together.
+ * `units`: armies, or fight()'s combatants (which carry their abilities). */
+function abilitySources(units, k) {
+  const out = new Map();
+  for (const x of units) {
+    const u = x.u ?? x;
+    const n = (x.ab ?? unitStats(u).ab)[k] ?? 0;
+    if (!n) continue;
+    const key = u.hero ? `h${u.id}` : u.type;
+    const e = out.get(key) ?? { name: unitName(u), count: 0, n: 0 };
+    e.count++; e.n += n;
+    out.set(key, e);
+  }
+  return [...out.values()].map((e) => ({ label: e.count > 1 ? `${e.name} ×${e.count}` : e.name, n: e.n }));
+}
+
+/**
+ * The stack bonus of side `mine` fighting side `theirs` (manual, Appendix 1 step 2): each of
+ * (my leadership - their chaos), (my morale - their fear), (my fortify + city walls - their
+ * siege) within -1..5, the total within -3..5. Returns { total, raw, terms: [{ k, vs, mine,
+ * theirs, walls, raw, n }] } where mine / theirs list who contributes ([{ label, n }]).
+ */
+export function stackBonus(mine, theirs, walls = 0) {
+  const terms = STACK_TERMS.map(([k, vs]) => {
+    const m = abilitySources(mine, k), t = abilitySources(theirs, vs);
+    const w = k === 'fortify' ? walls : 0;
+    const raw = sum(m) + w - sum(t);
+    return { k, vs, mine: m, theirs: t, walls: w, raw, n: clamp(raw, -1, 5) };
+  });
+  const raw = terms.reduce((n, x) => n + x.n, 0);
+  return { total: clamp(raw, -3, 5), raw, terms };
+}
+
+/** Battle strength after the stack bonus and the sea cap (1..20): { str, notes: [{ label, n }] }. */
+function finalStrength(pre, bonus, sea, boat, flyer) {
+  const notes = [];
+  let str = Math.max(1, pre + bonus);
+  if (sea && !flyer && str > (boat ?? 3)) { notes.push({ label: 'At sea: no stronger than its boat', n: (boat ?? 3) - str }); str = boat ?? 3; }
+  const c = clamp(str, 1, 20);
+  if (c !== str) notes.push({ label: c > str ? 'Strength is at least 1' : 'Strength is at most 20', n: c - str });
+  return { str: c, notes };
+}
+
+/**
+ * How strong army u of side `own` fights against side `foes`: { str, hits, parts, bonus
+ * (stackBonus), notes }. ctx as fight()'s; `side` 'att' or 'def' (only defenders get the
+ * city walls, ctx.fortify). The same arithmetic fight() uses, for the bonus tooltips.
+ */
+export function battleStrength(u, own, foes, ctx = {}, side = 'def') {
+  const a = armyStrength(u, own, ctx);
+  const bonus = stackBonus(own, foes, side === 'def' ? ctx.fortify ?? 0 : 0);
+  const sea = side === 'att' ? ctx.attSea : ctx.defSea, boat = side === 'att' ? ctx.attBoat : ctx.defBoat;
+  const f = finalStrength(a.str, bonus.total, sea, boat, unitStats(u).flyer);
+  return { str: f.str, hits: a.hits, parts: a.parts, bonus, notes: f.notes };
+}
 
 /**
  * Fight `attackers` (units) against `defenders`.
@@ -40,23 +141,16 @@ export function fight(attackers, defenders, ctx = {}) {
   const roll = (n) => 1 + Math.floor(rng() * n);
 
   const make = (units, side) => {
-    const eff = stackEffects(units);
-    const list = units.map((u) => {
-      const s = unitStats(u);
-      const home = ctx.terrain && (s.bonus.has(ctx.terrain) || s.bonus.has('all')) ? TERRAIN_BONUS : 0;
+    const group = groupBoosts(units);
+    return units.map((u) => {
+      const a = armyStrength(u, units, ctx, group, !sim), s = a.stats;
       return {
         u, side, id: u.id, type: u.type, hero: !!u.hero,
-        str: s.str + eff.grpStr + home, hits: s.hits + eff.grpHits, ab: { ...s.ab }, flyer: s.flyer,
+        str: a.str, hits: a.hits, ab: { ...s.ab }, flyer: s.flyer, parts: a.parts,
         medals: u.hero ? 0 : u.medals ?? 0, used: false, blessed: !!u.blessed,
         poisoned: !!u.poisoned, diseased: !!u.diseased, paralysed: !!u.paralysed, power: unitPower(u),
       };
     });
-    // banding: +1 strength per other army of the same type, up to the bonus
-    for (const c of list) {
-      const b = c.ab.banding;
-      if (b) c.str += Math.min(b, list.filter((o) => o !== c && o.type === c.type).length);
-    }
-    return list;
   };
   const A = make(attackers, 'att'), D = make(defenders, 'def');
   const total = (list, k) => list.reduce((n, c) => n + (c.ab[k] ?? 0), 0);
@@ -72,9 +166,11 @@ export function fight(attackers, defenders, ctx = {}) {
         if (k !== 'curse' && c.blessed) continue;
         if (k !== 'curse' && c[flag]) continue;
         if (rng() >= 0.03 * n) continue;
+        const was = c.str;
         if (k === 'poison') c.str = Math.max(1, c.str - 1);
         if (k === 'disease') c.hits = Math.max(1, c.hits - 1);
         if (k === 'curse') { if (c.blessed) c.str = Math.max(1, c.str - 1); c.blessed = false; c.medals = 0; }
+        if (c.str !== was && !sim) c.parts.push({ label: k === 'poison' ? 'Poisoned in this battle' : 'Cursed in this battle (blessing lost)', n: c.str - was });
         c[flag] = true;
         status.push({ id: c.id, effect: flag });
         push({ t: 'status', id: c.id, effect: flag });
@@ -84,21 +180,18 @@ export function fight(attackers, defenders, ctx = {}) {
   afflict(A, D);
   afflict(D, A);
 
-  // 2. stack bonuses
-  const term = (mine, theirs, k1, k2, extra = 0) => clamp(total(mine, k1) + extra - total(theirs, k2), -1, 5);
-  const bonusOf = (mine, theirs, fort) => clamp(
-    term(mine, theirs, 'leadership', 'chaos') + term(mine, theirs, 'morale', 'fear') + term(mine, theirs, 'fortify', 'siege', fort),
-    -3, 5,
-  );
-  const bAtt = bonusOf(A, D, 0), bDef = bonusOf(D, A, ctx.fortify ?? 0);
-  for (const c of A) c.str = Math.max(1, c.str + bAtt);
-  for (const c of D) c.str = Math.max(1, c.str + bDef);
-  // at sea armies fight no better than their boats (flyers fight normally)
-  const cap = (list, sea, boat) => { if (sea) for (const c of list) if (!c.flyer) c.str = Math.min(c.str, boat ?? 3); };
-  cap(A, ctx.attSea, ctx.attBoat);
-  cap(D, ctx.defSea, ctx.defBoat);
-  for (const c of [...A, ...D]) { c.str = clamp(c.str, 1, 20); c.hp = c.hits; }
-  push({ t: 'start', bonus: { att: bAtt, def: bDef }, att: A.map(snap), def: D.map(snap) });
+  // 2. stack bonuses; at sea armies fight no better than their boats (flyers fight normally)
+  const sbAtt = stackBonus(A, D, 0), sbDef = stackBonus(D, A, ctx.fortify ?? 0);
+  const bAtt = sbAtt.total, bDef = sbDef.total;
+  const finish = (list, b, sea, boat) => {
+    for (const c of list) {
+      const f = finalStrength(c.str, b, sea, boat, c.flyer);
+      c.str = f.str; c.hp = c.hits; c.notes = f.notes;
+    }
+  };
+  finish(A, bAtt, ctx.attSea, ctx.attBoat);
+  finish(D, bDef, ctx.defSea, ctx.defBoat);
+  push({ t: 'start', bonus: { att: bAtt, def: bDef }, detail: { att: sbAtt, def: sbDef }, att: A.map(snap), def: D.map(snap) });
 
   // 3. fight order: weakest first, heroes last
   const order = (list) => [...list].sort((a, b) => (a.hero - b.hero) || (a.power - b.power) || (a.str - b.str));
@@ -226,7 +319,7 @@ export function ruinDuel(hero, guardians, danger, ctx = {}) {
   return { winner, attLost: won ? [] : [hero.id], defLost, log, medals: [], status: [], bonus: { att: 0, def: 0 }, chance };
 }
 
-const snap = (c) => ({ id: c.id, type: c.type, hero: c.hero, str: c.str, hits: c.hits, medals: c.medals });
+const snap = (c) => ({ id: c.id, type: c.type, hero: c.hero, str: c.str, hits: c.hits, medals: c.medals, parts: c.parts, notes: c.notes });
 
 /** A small seeded generator (mulberry32) for mock battles. */
 function seeded(seed) {
