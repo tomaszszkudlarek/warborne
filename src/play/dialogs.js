@@ -113,14 +113,13 @@ export function cityDialog(ctl, city) {
         city.level < 3 ? h('button.btn.primary', { disabled: p.gold < cost, onclick: () => { if (g.buildUp(city)) { ctl.view.refreshCastles(); render(); ctl.refresh(); } } }, `Raise to ${CastleLevels[city.level + 1].name} — ${cost} gp`)
           : h('span.dim', 'The walls are as strong as they can be.'),
         h('span.dim', { style: { fontSize: '12px' } }, 'Walls add to the defence of every army in the city.')));
-      // vectoring: drag arrows between cities on the map
+      // vectoring: the arrows are dragged on the vectoring map, in its own window
       box.append(h('h3', 'Vectoring'));
       const to = city.vector != null ? g.s.cities[city.vector] : null;
-      box.append(vectorMap(ctl, { focus: city, maxW: 590, maxH: 300, onChange: () => { render(); ctl.refresh(); } }),
-        h('div.row', { style: { fontSize: '12px', marginTop: '4px' } },
-          h('span', to ? `New armies go to ${to.name} — they arrive ${g.vectorTurns(city, to)} turns later.` : 'New armies stay here.'),
-          to ? h('button.btn', { style: { padding: '2px 8px', fontSize: '12px', marginLeft: 'auto' }, onclick: () => { g.setVector(city, null); render(); ctl.refresh(); } }, 'Keep them here') : null),
-        h('div.dim', { style: { fontSize: '11.5px' } }, vectorHelp('production')));
+      box.append(h('div.row', { style: { fontSize: '12.5px' } },
+        h('span', to ? `New armies go to ${to.name} — they arrive ${g.vectorTurns(city, to)} turns later.` : 'New armies stay here.'),
+        h('button.btn', { style: { marginLeft: 'auto' }, title: 'Drag arrows between your cities (V)', onclick: () => vectoringDialog(ctl, city).then(() => { render(); ctl.refresh(); }) }, '➶ Vectoring map'),
+        to ? h('button.btn', { onclick: () => { g.setVector(city, null); render(); ctl.refresh(); } }, 'Keep them here') : null));
       const inc = g.incoming(city);
       if (inc.length) box.append(h('div.dim', { style: { fontSize: '12px', marginTop: '6px' } }, `On the way here: ${inc.map((v) => `${v.n} from ${v.from != null ? g.s.cities[v.from].name : 'afar'} (day ${v.round})`).join(', ')}.`));
       box.append(h('div.buttons',
@@ -402,25 +401,28 @@ export function vectorDialog(ctl, from) {
   const timed = g.s.options.timedVectoring;
   return dialog((close) => [
     h('h2', 'Vector group'), h('div.sub', timed ? 'The group leaves now; the farther the city, the longer the road (2–5 turns).' : 'The group leaves now and arrives at the chosen city in two turns.'),
-    vectorMap(ctl, { focus: from, mode: 'group', onPick: (c) => close(c) }),
+    vectorMap(ctl, { focus: from, mode: 'group', maxW: 780, maxH: 520, onPick: (c) => close(c) }),
     h('div.dim', { style: { fontSize: '11.5px', marginTop: '4px' } }, vectorHelp('group')),
-  ], { dismiss: null, width: '640px' });
+  ], { dismiss: null, width: '820px' });
 }
 
-/** The vectoring network of the viewer's whole empire. */
-export function vectoringDialog(ctl) {
+/** The vectoring network of the viewer's whole empire; `focus` (a city) is ringed and named. */
+export function vectoringDialog(ctl, focus = null) {
   return dialog((close, box) => {
     const render = () => {
       box.querySelectorAll(':scope > :not(.close)').forEach((e) => e.remove());
       const g = ctl.game, n = g.citiesOf(ctl.viewer).filter((c) => c.vector != null).length;
-      box.append(h('h2', 'Vectoring'), h('div.sub', n ? `${n} cit${n === 1 ? 'y sends' : 'ies send'} new armies elsewhere.` : 'Every city keeps its new armies.'),
-        vectorMap(ctl, { maxW: 820, maxH: 560, onChange: () => { render(); ctl.refresh(); } }),
+      const to = focus?.vector != null ? g.s.cities[focus.vector] : null;
+      const sub = focus ? (to ? `${focus.name} sends its new armies to ${to.name} — ${g.vectorTurns(focus, to)} turns on the road.` : `${focus.name} keeps its new armies.`)
+        : n ? `${n} cit${n === 1 ? 'y sends' : 'ies send'} new armies elsewhere.` : 'Every city keeps its new armies.';
+      box.append(h('h2', focus ? `Vectoring — ${focus.name}` : 'Vectoring'), h('div.sub', sub),
+        vectorMap(ctl, { focus, maxW: 900, maxH: 620, onChange: () => { render(); ctl.refresh(); } }),
         h('div.dim', { style: { fontSize: '11.5px', marginTop: '4px' } }, vectorHelp('production')),
         h('div.buttons', h('button.btn.primary', { onclick: () => close() }, 'Done')));
     };
     render();
     return [];
-  }, { dismiss: undefined, width: '860px' });
+  }, { dismiss: undefined, width: '940px' });
 }
 
 // --- reports ------------------------------------------------------------------------------------------------------------

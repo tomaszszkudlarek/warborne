@@ -159,6 +159,15 @@ export function vectorMap(ctl, opts = {}) {
 
     const cities = mine();
     const focus = opts.focus;
+    // names (under the arrows, so a line is never hidden by a label): the focus, the hovered and dragged-to cities, and where the focus sends to
+    const target = drag?.moved ? cityAtPx(drag.x, drag.y) : null;
+    const named = new Set([focus, hover, target, drag?.from, focus?.vector != null ? g.s.cities[focus.vector] : null].filter(Boolean));
+    if (cities.length <= 8) for (const c of cities) named.add(c);
+    for (const c of named) {
+      if (c.owner !== viewer) continue;
+      const [x, y] = at(c);
+      label(c.name, x, y + NODE + 9, c === focus ? '#ffe39a' : '#f1e7cf');
+    }
     // standing vectors
     const mids = [];
     for (const c of cities) {
@@ -204,7 +213,6 @@ export function vectorMap(ctl, opts = {}) {
 
     // the viewer's cities: round nodes; hollow when training nothing
     const col = SIDES[viewer]?.color ?? '#ccc';
-    const target = drag?.moved ? cityAtPx(drag.x, drag.y) : null;
     for (const c of cities) {
       const [x, y] = at(c);
       const lit = c === hover || c === target || (drag && c === drag.from);
@@ -220,14 +228,6 @@ export function vectorMap(ctl, opts = {}) {
       if (!c.producing) { ctx.beginPath(); ctx.arc(x, y, NODE - 4, 0, Math.PI * 2); ctx.fillStyle = '#0c0906'; ctx.fill(); }
       else if (c.capital) { ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fillStyle = '#fff6d8'; ctx.fill(); }
       if (lit) { ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, NODE + 1.5, 0, Math.PI * 2); ctx.stroke(); }
-    }
-    // names: the focus, the hovered and dragged-to cities, and where the focus sends to
-    const named = new Set([focus, hover, target, drag?.from, focus?.vector != null ? g.s.cities[focus.vector] : null].filter(Boolean));
-    if (cities.length <= 8) for (const c of cities) named.add(c);
-    for (const c of named) {
-      if (c.owner !== viewer) continue;
-      const [x, y] = at(c);
-      label(c.name, x, y + NODE + 9, c === focus ? '#ffe39a' : '#f1e7cf');
     }
   }
 
