@@ -570,6 +570,11 @@ export class Controller {
     if (mine) banner(out.choice === 'raze' ? `${c.name} razed` : `${c.name} taken`, out.gold ? `+${out.gold} gold` : '');
     this._flushFx();
     this.refresh();
+    // a city taken whole opens its window, so its production can be set straight away
+    if (mine && this.human && !c.razed && out.choice !== 'raze') {
+      await sleep(900);
+      if (this.game === g && c.owner === this.viewer) this.openCity(c);
+    }
   }
 
   async _searched(out) {

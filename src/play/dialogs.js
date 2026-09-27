@@ -76,17 +76,18 @@ export function cityDialog(ctl, city) {
       }
       // production
       box.append(h('h3', 'Production'));
-      const prodRow = h('div', { style: { display: 'flex', flexDirection: 'column', gap: '4px' } });
+      const prodRow = h('div.grid2', { style: { gap: '4px 10px' } });
       for (const type of city.prod) {
         const u = UNITS[type];
         const on = city.producing === type;
         prodRow.append(h('div.unitrow' + (on ? '.sel' : ''), { onclick: () => { g.setProduction(city, on ? null : type); render(); ctl.refresh(); } },
-          portrait(P, type, city.owner, 52),
-          h('div', { style: { flex: 1 } }, h('div.name', u.name, on ? h('span.good', { style: { marginLeft: '8px', fontSize: '12px' } }, `● training — ${city.progress}/${g.prodTime(city, type)} turn${g.prodTime(city, type) > 1 ? 's' : ''}`) : null),
+          portrait(P, type, city.owner, 44),
+          h('div', { style: { flex: 1, minWidth: 0 } }, h('div.name', u.name),
+            on ? h('div.good', { style: { fontSize: '12px' } }, `● training — ${city.progress}/${g.prodTime(city, type)} turn${g.prodTime(city, type) > 1 ? 's' : ''}`) : null,
             h('div.meta', typeLine(type))),
         ));
       }
-      if (!city.prod.length) prodRow.append(h('div.dim', 'This city cannot train any of your armies. Buy the capacity below.'));
+      if (!city.prod.length) prodRow.append(h('div.dim', { style: { gridColumn: '1 / -1' } }, 'This city cannot train any of your armies. Buy the capacity below.'));
       box.append(prodRow);
       box.append(h('div.row', { style: { marginTop: '6px' } },
         h('button.btn', { onclick: () => { g.setProduction(city, null); render(); ctl.refresh(); } }, 'Stop production'),
