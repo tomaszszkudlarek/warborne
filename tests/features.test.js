@@ -482,3 +482,24 @@ test('hero attributes cost only ability points; spells wait for their level', as
   if (attr >= 0) assert.ok(g.buyAbility(hero, attr), `level-1 hero buys ${lv[attr].ability.text}`);
   if (spell >= 0) assert.ok(!g.buyAbility(hero, spell), `${lv[spell].ability.text} waits for level ${spell + 1}`);
 });
+
+test('losing a vectoring target stops the vectoring and turns the armies on the road back home', async () => {
+  const g = await newGame('eight-warlords.wlmap');
+  const p = g.current;
+  const [from, to] = [g.citiesOf(p.id)[0], g.s.cities.find((c) => c.owner < 0 && !c.razed)];
+  to.owner = p.id;
+  from.producing = from.prod[0];
+  g.setVector(from, to);
+  const k = g.garrison(from)[0];
+  const u = k.units[0];
+  assert.ok(g.vectorUnits([u.id], to));
+  // an enemy takes the target
+  const foe = g.s.players.find((x) => x.id !== p.id);
+  const [enemy] = g.addUnits(g.s.stacks.some((s) => s.t === to.tiles[0]) ? to.tiles[1] : to.tiles[0], foe.id, [g.newUnit('knight')]);
+  for (const s of g.garrison(to).filter((s) => s.owner === p.id)) g.removeUnits(s.units.map((x) => x.id));
+  g.captureCity(enemy, to, 'occupy');
+  assert.equal(from.vector, null);
+  assert.equal(from.producing, from.prod[0]);
+  assert.ok(!g.s.pending.some((v) => v.units.includes(u)));
+  assert.equal(g.cityAt(g.stackOfUnit(u.id).t), from);
+});

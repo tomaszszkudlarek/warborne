@@ -996,6 +996,7 @@ export class Game {
     const foreign = city.prod.filter((u) => !own.includes(u));
     if (choice === 'raze' && this.s.hill?.city === city.id) choice = 'occupy'; // Utopia is not burnt
     this.diplo.onCapture(pid, prevOwner, choice === 'raze');
+    this._cityLost(city, prevOwner);
     if (choice === 'raze') {
       city.razed = true; city.owner = -1; city.prod = []; city.producing = null; city.vector = null;
       this.note(`${p.name} raze ${city.name} to the ground!`, { t: city.t, kind: 'battle' });
@@ -1034,6 +1035,24 @@ export class Game {
   }
 
   /**
+   * `owner` lost `city` (taken or burnt): its other cities stop vectoring there (production goes
+   * on, new armies stay home), and the armies on the road to it turn back at once to the cities
+   * that sent them — or, where that one fell too, to the nearest city still held.
+   */
+  _cityLost(city, owner) {
+    if (owner < 0) return;
+    for (const c of this.s.cities) if (c.vector === city.id) c.vector = null;
+    for (const v of this.s.pending.filter((x) => x.city === city.id && x.owner === owner)) {
+      this.s.pending = this.s.pending.filter((x) => x !== v);
+      const from = v.from != null ? this.s.cities[v.from] : null;
+      const home = from && from.owner === owner && !from.razed ? from : this._nearestCity(city.t, (c) => c.owner === owner && !c.razed);
+      if (!home) continue; // nowhere left to go
+      this.addUnits(home.tiles[0], owner, v.units);
+      this.note(`${city.name} has fallen: ${v.units.length} ${v.units.length === 1 ? 'army' : 'armies'} on the road there turn back to ${home.name}.`, { t: home.t, player: owner });
+    }
+  }
+
+  /**
    * A side burns one of its own cities (Warlords III: raze any time — to deny it to an enemy).
    * Its armies stay in the ruins. Every other side frowns on it.
    */
@@ -1042,7 +1061,7 @@ export class Game {
     if (!this.canRaze(city, pid)) return false;
     const p = this.player(pid);
     city.razed = true; city.owner = -1; city.prod = []; city.producing = null; city.progress = 0; city.vector = null;
-    for (const c of this.s.cities) if (c.vector === city.id) c.vector = null;
+    this._cityLost(city, pid);
     this.diplo.onRazeOwn(pid);
     this.note(`${p.name} put ${city.name} to the torch!`, { t: city.t, kind: 'battle', player: pid });
     this.emit('cityChanged', city);
