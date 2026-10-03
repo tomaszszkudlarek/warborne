@@ -434,6 +434,73 @@ function makeFlagMaterial(src) {
   return mat;
 }
 
+// Owners' standards: tall poles at two opposite corners of every held castle, each flying a
+// large fluttering flag in the side's colour, so whose castle it is reads from far off.
+// Neutral castles fly none. Heights per level clear the model's tallest towers.
+const BANNER_POLE = { 1: 1.6, 2: 1.9, 3: 2.2 };
+const BANNER_CORNER = 1.3; // along each axis from the castle's centre, before the gate yaw
+const BANNER_W = 0.85, BANNER_H = 0.5;
+
+function bannerTexture() {
+  const cv = document.createElement('canvas');
+  cv.width = 128; cv.height = 80;
+  const x = cv.getContext('2d');
+  // white takes the side's colour (instance colour); the darker trim and device shade it
+  x.fillStyle = '#fff'; x.fillRect(0, 0, 128, 80);
+  x.fillStyle = 'rgba(0,0,0,0.38)';
+  x.fillRect(0, 0, 128, 7); x.fillRect(0, 73, 128, 7); x.fillRect(121, 0, 7, 80);
+  x.beginPath(); x.moveTo(64, 18); x.lineTo(84, 40); x.lineTo(64, 62); x.lineTo(44, 40); x.closePath(); x.fill();
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+let bannerTex = null;
+
+function createCastleBanners(list) {
+  const held = list.filter(({ c }) => c.owner >= 0);
+  if (!held.length || typeof document === 'undefined') return null;
+  bannerTex ??= bannerTexture();
+  const group = new THREE.Group();
+  group.name = 'castle-banners';
+  const n = held.length * 2;
+  const pole = new THREE.CylinderGeometry(0.035, 0.045, 1, 6).translate(0, 0.5, 0);
+  const knob = new THREE.SphereGeometry(0.075, 8, 6);
+  const cloth = new THREE.PlaneGeometry(BANNER_W, BANNER_H, 10, 3).translate(BANNER_W / 2 + 0.03, -BANNER_H / 2 - 0.08, 0);
+  const pos = cloth.attributes.position, wave = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) wave[i * 3] = Math.max(0, pos.getX(i) / BANNER_W);
+  cloth.setAttribute('aWave', new THREE.BufferAttribute(wave, 3));
+  const poles = new THREE.InstancedMesh(pole, new THREE.MeshStandardMaterial({ color: 0x4a3a26, roughness: 0.8 }), n);
+  const knobs = new THREE.InstancedMesh(knob, new THREE.MeshStandardMaterial({ color: 0xd8b04a, roughness: 0.35, metalness: 0.7 }), n);
+  const flagMat = makeFlagMaterial(new THREE.MeshStandardMaterial({ map: bannerTex, side: THREE.DoubleSide, roughness: 0.85 }));
+  const flags = new THREE.InstancedMesh(cloth, flagMat, n);
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), p = new THREE.Vector3(), one = new THREE.Vector3(1, 1, 1);
+  const up = new THREE.Vector3(0, 1, 0), color = new THREE.Color();
+  let k = 0;
+  for (const { c, yaw } of held) {
+    const H = BANNER_POLE[c.level] ?? BANNER_POLE[3];
+    color.set(Factions[c.owner].color);
+    for (const sgn of [1, -1]) {
+      // back-left and front-right corners, flags streaming the same way
+      const lx = sgn * BANNER_CORNER, lz = -sgn * BANNER_CORNER;
+      const wx = c.x + lx * Math.cos(yaw) + lz * Math.sin(yaw), wz = c.z - lx * Math.sin(yaw) + lz * Math.cos(yaw);
+      q.setFromAxisAngle(up, yaw + 0.6);
+      poles.setMatrixAt(k, m4.compose(p.set(wx, c.y - 0.05, wz), q, new THREE.Vector3(1, H + 0.05, 1)));
+      knobs.setMatrixAt(k, m4.compose(p.set(wx, c.y + H + 0.04, wz), q, one));
+      flags.setMatrixAt(k, m4.compose(p.set(wx, c.y + H, wz), q, one));
+      flags.setColorAt(k, color);
+      k++;
+    }
+  }
+  for (const m of [poles, knobs, flags]) {
+    m.instanceMatrix.needsUpdate = true;
+    m.computeBoundingSphere();
+    m.castShadow = true;
+    group.add(m);
+  }
+  flags.instanceColor.needsUpdate = true;
+  return group;
+}
+
 export function createCastles(map) {
   if (!map.cities.length) return null;
   const models = assets.castles;
@@ -475,6 +542,8 @@ export function createCastles(map) {
       group.add(mesh);
     }
   }
+  const banners = createCastleBanners([...byLevel.values()].flat());
+  if (banners) group.add(banners);
   return group;
 }
 

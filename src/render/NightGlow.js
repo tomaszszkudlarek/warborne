@@ -144,7 +144,7 @@ export class NightGlow {
       const shrine = SiteTypes[s.type]?.kind === 'shrine';
       // each site in the colour of its own glow; a searched ruin keeps only a faint ember of its menace
       if (shrine) this._splat(always, x, z, 1.9 * T, SITE_LIGHT[s.type] ?? COLORS.shrine, 0.4);
-      else this._splat(always, x, z, 1.9 * T, SITE_LIGHT[s.type] ?? COLORS.ruin, s.explored ? 0.1 : 0.45);
+      else this._splat(always, x, z, 1.9 * T, SITE_LIGHT[s.type] ?? COLORS.ruin, s.explored ? 0.06 : 0.6);
     }
     for (const e of this.extra) this._splat(ALWAYS.has(e.color) ? always : into, e.x, e.z, e.r * T, COLORS[e.color] ?? COLORS.torch, e.k ?? 0.6);
     this._compose();

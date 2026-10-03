@@ -115,6 +115,8 @@ export class Controller {
     this.cmd = new Commander(g, this._hooks());
     g.on('log', (e) => this._later(e.t, () => this._onLog(e)));
     g.on('levelUp', ({ unit }) => { const level = unit.hero.level; this._later(-1, () => this._levelUp(unit, level)); });
+    g.on('questDone', (e) => this._later(-1, () => this._questResult(e, true)));
+    g.on('questFailed', (e) => this._later(-1, () => this._questResult(e, false)));
     g.on('weather', (w) => { this.weather.setClimate(w.name); this.hud.renderTop(); });
     g.on('gameOver', (ev) => { this.pendingGameOver = ev; });
     g.on('bless', ({ stack, site }) => { const t = site.ty * g.W + site.tx; this._later(t, () => { this._fx('bless', t); if (stack?.owner === this.viewer) music.sfx('bless'); }); });
@@ -602,13 +604,15 @@ export class Controller {
     const mine = owner === this.viewer && this.human;
     if (mine) music.hero();
     try {
-      if (mine && out.won) await searchDialog(this, out);
+      // mourn only a hero who is really gone (guardians who join leave the hero standing)
+      const fell = !out.won && !this.game.unit(out.hero.id);
+      if (mine && !fell) await searchDialog(this, out);
       else if (mine) {
         music.heroSlain();
         await heroFallenDialog(this, out.hero, owner, { where: out.site.name, ruin: true, slayer: UNITS[out.guardians[0].type].name, items: out.dropped?.[0]?.items ?? [] });
       }
     } finally { this._flushFx(); }
-    if (mine && out.won) music.heroDone();
+    if (mine && this.game.unit(out.hero.id)) music.heroDone();
     this.refresh();
   }
 
@@ -678,6 +682,18 @@ export class Controller {
     if (!k || k.owner !== this.viewer || !g.player(k.owner)?.human) return;
     const lv = HERO_CLASSES[unit.hero.cls].levels[level - 1];
     levelUpShow({ name: unit.hero.name, level, title: lv?.title ?? '', ap: lv?.ap ?? 0, cls: HERO_CLASSES[unit.hero.cls].name, portrait: this.portraits.url(unit.type, k.owner), color: SIDES[k.owner]?.color });
+    this.refresh();
+  }
+
+  /** The viewer's quest is won or lost: a dialog that waits for the player, so the news is not missed. */
+  _questResult(e, won) {
+    if (e.player !== this.viewer || !this.game?.player(e.player)?.human) return;
+    const name = e.unit?.hero.name ?? 'Your hero';
+    if (won) music.sfx('bless');
+    ask(won ? 'Quest completed!' : 'Quest failed',
+      won ? `<b>${name}</b> completes the quest <b>${e.quest.text}</b> and is rewarded with <b>${e.reward}</b>.`
+        : `The quest <b>${e.quest.text}</b> can no longer be completed: ${e.why}.`,
+      [{ label: 'Continue', value: true, primary: true }], { cls: won ? 'quest-won' : 'quest-lost' });
     this.refresh();
   }
 

@@ -60,6 +60,8 @@ h1, h2, h3, .cinzel { font-family: Cinzel, serif; letter-spacing: 0.04em; }
 .btn.danger { background: linear-gradient(180deg, #7a2a20, #4a1812); border-color: #c0604a; }
 .btn.big { font-family: Cinzel, serif; font-size: 16px; padding: 11px 22px; letter-spacing: 0.06em; }
 .btn.icon { width: 44px; height: 44px; padding: 0; display: grid; place-items: center; font-size: 19px; position: relative; }
+.btn.icon .badge { position: absolute; top: -5px; right: -5px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; background: #d8402c; color: #fff; font: 700 11px/17px Inter, sans-serif; box-shadow: 0 0 0 2px #1a130a, 0 0 8px rgba(255, 90, 50, 0.8); animation: badgePulse 1.6s ease-in-out infinite; pointer-events: none; }
+@keyframes badgePulse { 50% { transform: scale(1.15); box-shadow: 0 0 0 2px #1a130a, 0 0 14px rgba(255, 120, 60, 1); } }
 .btn.icon small { position: absolute; bottom: 1px; left: 0; right: 0; font-size: 8.5px; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-dim); font-family: Inter, sans-serif; }
 .btn.news { animation: newsPulse 1.2s ease-in-out infinite; border-color: #ff8a6a; }
 @keyframes newsPulse { 50% { box-shadow: 0 0 14px rgba(255, 120, 80, 0.8); } }

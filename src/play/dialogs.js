@@ -14,6 +14,7 @@ import { standing, BRIBE_GOLD, STATUS } from '../game/diplomacy.js';
 import { SPECIAL_TYPES, REBUILD_SITE } from '../game/specials.js';
 import { SPELL_FX } from '../render/SpellFX.js';
 import { art } from './art.js';
+import { hoverTip, abilityTip, spellTip } from './strtip.js';
 import { vectorMap, vectorHelp } from './vectormap.js';
 
 /** A spell's or item's icon: its painting when there is one, else the glyph. */
@@ -168,9 +169,10 @@ export function heroDialog(ctl, u) {
         const bought = hr.bought.includes(i);
         const open = g.abilityOpen(u, i);
         const can = mine && !bought && open && hr.ap >= l.cost;
-        list.append(h('div.row', { style: { fontSize: '12.5px', opacity: open || bought ? 1 : 0.45, justifyContent: 'space-between' }, title: open ? '' : `A spell learned from level ${i + 1}` },
+        list.append(hoverTip(h('div.row', { style: { fontSize: '12.5px', opacity: open || bought ? 1 : 0.45, justifyContent: 'space-between', cursor: 'help' } },
           h('span', h('b', { style: { color: bought ? 'var(--good)' : 'var(--ink)' } }, l.ability.text), l.ability.spell ? h('span.faint', ` · spell, L${i + 1}`) : null),
-          bought ? h('span.good', '✓') : h('button.btn', { style: { padding: '2px 8px', fontSize: '11.5px' }, disabled: !can, onclick: () => { g.buyAbility(u, i); render(); ctl.refresh(); } }, `${l.cost} AP`)));
+          bought ? h('span.good', '✓') : h('button.btn', { style: { padding: '2px 8px', fontSize: '11.5px' }, disabled: !can, onclick: () => { g.buyAbility(u, i); render(); ctl.refresh(); } }, `${l.cost} AP`)),
+        () => abilityTip(l.ability, { cost: l.cost, level: i + 1 }) + (open || bought ? '' : `<div class="why">A spell learned from level ${i + 1}.</div>`)));
       });
       box.append(list);
       // items
@@ -185,7 +187,7 @@ export function heroDialog(ctl, u) {
       // spells
       box.append(h('h3', 'Spells'));
       if (!hr.spells.length) box.append(h('div.dim', `${cls.name}s learn spells as they rise in level.`));
-      else box.append(h('div.row', hr.spells.map((id) => h('span.pill', { style: { borderColor: spellColor(id) } }, `${SPELL_GLYPH[id] ?? '✦'} ${SPELLS[id].name}${hr.active.includes(id) ? ' (in play)' : ''}`))));
+      else box.append(h('div.row', hr.spells.map((id) => hoverTip(h('span.pill', { style: { borderColor: spellColor(id), cursor: 'help' } }, `${SPELL_GLYPH[id] ?? '✦'} ${SPELLS[id].name}${hr.active.includes(id) ? ' (in play)' : ''}`), () => spellTip(id)))));
       const qp = hr.quest && g.s.quests[owner]?.hero === u.id ? g.questProgress(owner) : null;
       if (qp) {
         box.append(h('h3', `Quest — ${qp.difficulty}`),

@@ -307,6 +307,11 @@ export class Hud {
     const site = k ? g.site(k.t) : null;
     const b = (icon, label, fn, on = true, title = label, extra = '') => h('button.btn.icon' + extra, { onclick: fn, disabled: !(human && on), title }, icon, h('small', label));
     const myCity = city && city.owner === c.viewer;
+    // a badge on the Hero button while the viewer's hero has ability points it could spend now
+    const hr = hero && g.stackOfUnit(hero.id)?.owner === c.viewer ? hero.hero : null;
+    const spendable = hr && hr.ap > 0 && g.buyable(hero).some((x) => hr.ap >= x.cost);
+    const heroBtn = b('👤', 'Hero', () => c.openHero(hero), !!hero, spendable ? `Hero report, abilities and items (H) — ${hr.ap} ability point${hr.ap === 1 ? '' : 's'} to spend!` : 'Hero report, abilities and items (H)');
+    if (spendable) heroBtn.append(h('span.badge', String(hr.ap)));
     box.append(
       b('⏭', 'Next', () => c.nextGroup(), true, 'Next group that can move (N)'),
       b('▶', 'Move', () => c.continueMove(), !!(k?.path && units.length), 'Continue along the planned route (M)'),
@@ -316,7 +321,7 @@ export class Hud {
       b('🔍', 'Search', () => c.searchRuin(), !!(k && g.canSearch(k)), site?.kind === 'ruin' ? `Search ${site.name} (F)${hero && !site.state.explored ? ` — ${hero.hero.name} goes in alone, about ${Math.round(ruinChance(hero, site.danger ?? 1, k.units) * 100)}% to win (the army here adds to the odds)` : ''}` : 'Search a ruin (a hero must stand on it; the hero goes in alone, backed by the army with it)'),
       ...(g.groundAt(k?.t ?? -1) ? [b('🎒', 'Take', () => c.pickUpItems(), g.canPickUp(k), `Take up the ${g.groundAt(k.t).items.map((x) => ITEMS[x].name).join(', ')} lying here (a hero must be in the group) (T)`)] : []),
       b('✦', 'Cast', () => c.openCast(hero), !!(hero && hero.hero.spells.length), 'Cast a spell (C)'),
-      b('👤', 'Hero', () => c.openHero(hero), !!hero, 'Hero report, abilities and items (H)'),
+      heroBtn,
       b('🏰', 'City', () => c.openCity(city), !!city, 'City production and building'),
       b('❗', 'Quest', () => c.questAction(hero), !!(hero && (myCity || g.s.quests[c.viewer])), 'Get or show a quest'),
       b('➶', 'Vector', () => c.openVector(), !!(myCity && units.length), `Send the group to another of your cities (${g.s.options.timedVectoring ? '2–5' : 'two'} turns)`),

@@ -4,8 +4,8 @@ import { noiseGLSL } from './shaders/common.js';
 import { SiteTypes } from '../generator/terrainTypes.js';
 
 // Atmosphere round the ruins and shrines: thin smoke curling up from ruins not yet searched,
-// tinted from below by the site's own light, and a few glowing motes drifting round every
-// site. The colours match the glow of each model (and the light NightGlow splats under it).
+// tinted from below by the site's own light, and glowing motes drifting round every shrine and
+// (more, bigger and brighter) round every ruin not yet searched: a searched ruin goes dark. The colours match the glow of each model (and the light NightGlow splats under it).
 export const SITE_LIGHT = {
   tower: [0.62, 0.42, 1.0], // cold violet sorcery
   cave: [0.45, 1.0, 0.25], // witch-fire braziers
@@ -17,9 +17,11 @@ export const SITE_LIGHT = {
   obelisk: [0.7, 0.3, 1.0],
 };
 const SMOKE_PER_RUIN = 28;
-const MOTES_PER_SITE = 14;
+const MOTES_PER_SITE = 24; // room for a ruin's swarm; a shrine lights only SHRINE_MOTES of them
+const SHRINE_MOTES = 14;
+const RUIN_MOTE_BOOST = 1.6; // a ruin's motes: size and brightness against a shrine's
 
-function particles(sites, per, smoke) {
+function particles(sites, per, smoke, onOf = () => 1) {
   const n = sites.length * per;
   const pos = new Float32Array(n * 3), seed = new Float32Array(n * 4), col = new Float32Array(n * 3), on = new Float32Array(n);
   sites.forEach((s, si) => {
@@ -29,7 +31,7 @@ function particles(sites, per, smoke) {
       pos.set([s.x, s.y, s.z], o * 3);
       seed.set([Math.random(), Math.random(), Math.random(), Math.random()], o * 4);
       col.set(c, o * 3);
-      on[o] = 1;
+      on[o] = onOf(s, i);
     }
   });
   const geo = new THREE.BufferGeometry();
@@ -69,8 +71,8 @@ function particles(sites, per, smoke) {
              p.y += 0.15 + life * 1.6 + sin(uTime * 1.7 + aSeed.w * 20.0) * 0.08;`}
         vec4 mvPosition = viewMatrix * vec4(p, 1.0);
         gl_Position = projectionMatrix * mvPosition;
-        float size = ${smoke ? 'mix(0.35, 1.7, sqrt(life))' : '0.07'};
-        gl_PointSize = aOn < 0.5 ? 0.0 : min(size * uPointScale / -mvPosition.z, ${smoke ? '220.0' : '6.0'});
+        float size = ${smoke ? 'mix(0.35, 1.7, sqrt(life))' : '0.07 * aOn'};
+        gl_PointSize = aOn < 0.5 ? 0.0 : min(size * uPointScale / -mvPosition.z, ${smoke ? '220.0' : '6.0 * aOn'});
         #include <fog_vertex>
       }`,
     fragmentShader: /* glsl */ `
@@ -90,7 +92,7 @@ function particles(sites, per, smoke) {
              vec3 col = mix(vec3(0.06, 0.06, 0.065), vec3(0.2, 0.2, 0.21), vLife) * (uAmbient * 1.2 + uSunColor * 0.2);
              col += vColor * smoothstep(0.45, 0.0, vLife) * 0.22; // lit from below by the site's glow`
           : `float a = smoothstep(0.5, 0.0, d) * sin(vLife * 3.1416) * (0.6 + 0.4 * sin(uTime * 6.0 + vSeed * 40.0));
-             vec3 col = vColor * 2.4;`}
+             vec3 col = vColor * 2.4 * vOn;`}
         gl_FragColor = vec4(col, a);
         if (a < 0.01) discard;
         #include <fog_fragment>
@@ -107,7 +109,7 @@ function particles(sites, per, smoke) {
 }
 
 /** Smoke over the ruins and motes round every site; userData.setExplored(flags per map.sites)
- * puts out a searched ruin's smoke, userData.setPointScale(s) as for the volcanoes. */
+ * puts out a searched ruin's smoke and motes, userData.setPointScale(s) as for the volcanoes. */
 export function createSiteFX(map) {
   const sites = map.sites ?? [];
   if (!sites.length) return null;
@@ -115,14 +117,19 @@ export function createSiteFX(map) {
   const group = new THREE.Group();
   group.name = 'siteFX';
   const smoke = ruins.length ? particles(ruins.map((x) => x.s), SMOKE_PER_RUIN, true) : null;
-  const motes = particles(sites, MOTES_PER_SITE, false);
+  const isRuin = (s) => SiteTypes[s.type]?.kind === 'ruin';
+  const motes = particles(sites, MOTES_PER_SITE, false, (s, i) => (isRuin(s) ? RUIN_MOTE_BOOST : i < SHRINE_MOTES ? 1 : 0));
   if (smoke) group.add(smoke);
   group.add(motes);
   group.userData.setExplored = (flags) => {
     if (!smoke) return;
-    const on = smoke.geometry.attributes.aOn;
-    ruins.forEach(({ i }, k) => on.array.fill(flags[i] ? 0 : 1, k * SMOKE_PER_RUIN, (k + 1) * SMOKE_PER_RUIN));
+    const on = smoke.geometry.attributes.aOn, mon = motes.geometry.attributes.aOn;
+    ruins.forEach(({ i }, k) => {
+      on.array.fill(flags[i] ? 0 : 1, k * SMOKE_PER_RUIN, (k + 1) * SMOKE_PER_RUIN);
+      mon.array.fill(flags[i] ? 0 : RUIN_MOTE_BOOST, i * MOTES_PER_SITE, (i + 1) * MOTES_PER_SITE);
+    });
     on.needsUpdate = true;
+    mon.needsUpdate = true;
   };
   group.userData.setPointScale = (s) => {
     if (smoke) smoke.material.uniforms.uPointScale.value = s;

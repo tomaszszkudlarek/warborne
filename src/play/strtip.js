@@ -4,6 +4,7 @@
 import { h } from './dom.js';
 import { unitName, typeName, unitStats } from '../game/rules.js';
 import { battleStrength, MEDAL_DIE } from '../game/combat.js';
+import { SPELLS } from '../game/data/spells.js';
 
 const TERM_NAMES = { leadership: 'Leadership', morale: 'Morale', fortify: 'Fortify', chaos: 'chaos', fear: 'fear', siege: 'siege' };
 const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '0');
@@ -89,4 +90,48 @@ export function hoverTip(el, html) {
   });
   el.addEventListener('mouseleave', () => { if (owner === el) hide(); });
   return el;
+}
+
+// --- hero window: what an ability or a spell does --------------------------------------------------------
+const AB_TIP = {
+  leadership: 'Every army in the hero\'s stack fights harder: adds to the stack bonus. The enemy\'s chaos cancels it.',
+  morale: 'Steadies the stack: adds to the stack bonus. The enemy\'s fear cancels it.',
+  fortify: 'The stack digs in: adds to the stack bonus. The enemy\'s siege cancels it (city walls add to it).',
+  chaos: 'Sows confusion: cancels as much of the enemy\'s leadership.',
+  fear: 'Terrifies the foe: cancels as much of the enemy\'s morale.',
+  siege: 'Breaks defences: cancels as much of the enemy\'s fortify and city walls.',
+  assassin: 'When the hero first steps up in a battle: a 10 % chance per point to kill the foe outright.',
+};
+const STAT_TIP = {
+  str: 'The hero\'s own battle strength (each round both sides roll 1–20; a roll at or under strength succeeds).',
+  hits: 'Hits the hero can lose in a battle before falling.',
+  move: 'Movement points every turn — the hero and the group can go further.',
+  view: 'Tiles the hero sees around them through the fog.',
+};
+
+/** HTML for a hero ability (parsed by data/heroes.js parseAbility), with its cost and when it opens. */
+export function abilityTip(a, { cost, level } = {}) {
+  let what;
+  if (a.spell) return spellTip(a.spell, { cost, level });
+  if (a.stat) what = STAT_TIP[a.stat];
+  else if (a.ab) what = AB_TIP[a.ab] ?? 'A battle skill of the hero\'s stack.';
+  else if (a.income) what = `${a.income} gold more every turn.`;
+  else if (a.engineer) what = `Engineering: in a city, cuts the price of raising the city a level by ${a.engineer * 10} %.`;
+  else if (a.bonus) what = 'Moves over every kind of rough ground at the cost of open land, and fights at +1 strength on it.';
+  else if (a.fly) what = 'The hero flies — and carries the group over water, mountains and all.';
+  else if (a.speed) what = 'Twice the movement points every turn.';
+  else if (a.invisible) what = 'The hero\'s stack cannot be seen by the enemy unless it attacks.';
+  return `<div class="r t"><span>${esc(a.text)}</span>${cost != null ? `<b>${cost} AP</b>` : ''}</div><div class="why">${esc(what ?? '')}</div>`;
+}
+
+/** HTML for a spell: what it does, its mana cost and upkeep. */
+export function spellTip(id, { cost, level } = {}) {
+  const sp = SPELLS[id];
+  if (!sp) return '';
+  const kind = { buff: 'Lasting blessing on the stack', curse: 'Lasting curse on the foes the stack fights', summon: 'Summoning', utility: 'One-off' }[sp.kind] ?? '';
+  return `<div class="r t"><span>✦ ${esc(sp.name)}</span>${cost != null ? `<b>${cost} AP</b>` : ''}</div>`
+    + `<div class="why">${esc(sp.desc)}.</div>`
+    + row('Mana to cast', String(sp.cost))
+    + (sp.upkeep ? row('Upkeep', `${sp.upkeep} mana / turn`) : '')
+    + `<div class="why">${esc(kind)}${sp.upkeep ? ' — lasts until cancelled or the mana runs out' : ''}.${level ? ` Learned from level ${level}.` : ''}</div>`;
 }

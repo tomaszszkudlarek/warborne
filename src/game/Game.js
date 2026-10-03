@@ -1383,10 +1383,10 @@ export class Game {
     if (UNITS[gtype].str >= JOIN_MIN_STR && this.rand() < RUIN_JOIN) {
       // friendly monsters: the guardians would rather join the hero than fight
       out.won = true; out.joined = true;
-      const room = STACK_MAX - stack.units.length;
-      const allies = guardians.slice(0, room);
-      if (allies.length) { for (const a of allies) a.mp = 0; stack.units.push(...allies); }
-      else this.addUnits(stack.t, stack.owner, guardians);
+      const room = Math.max(0, STACK_MAX - stack.units.length);
+      for (const a of guardians) a.mp = 0;
+      stack.units.push(...guardians.slice(0, room));
+      if (guardians.length > room) this.addUnits(stack.t, stack.owner, guardians.slice(room));
       out.reward = { kind: 'allies', type: gtype, n: guardians.length };
     } else {
       // the hero goes in alone, backed by the group's strength; the group waits outside, safe
@@ -1409,6 +1409,7 @@ export class Game {
     if (alive) this.gainXp(alive, 3);
     const q = this.s.quests[stack.owner];
     if (q?.kind === 'ruin' && q.site === site.i) this._questDone(stack.owner);
+    for (const [pid, oq] of Object.entries(this.s.quests)) if (oq?.kind === 'ruin' && oq.site === site.i) this._checkQuest(+pid);
     this.note(`${hero.hero.name} searches ${site.name}: ${describeReward(out.reward)}.`, { t: stack.t, kind: 'good' });
     this.emit('search', out);
     this._checkAlive();
@@ -1676,7 +1677,12 @@ export class Game {
     if (!q) return;
     const u = this.unit(q.hero);
     const gone = !u || (q.kind === 'ruin' && this.s.sites[q.site].explored) || (q.kind === 'capture' && this.s.cities[q.city].razed);
-    if (gone) { this.note('A quest can no longer be completed.', { player: pid }); this.s.quests[pid] = null; if (u) u.hero.quest = null; }
+    if (!gone) return;
+    const why = !u ? 'its hero is dead' : q.kind === 'ruin' ? `${this.map.sites[q.site].name} has already been searched` : `${this.s.cities[q.city].name} lies in ruins`;
+    this.note(`A quest can no longer be completed: ${why}.`, { player: pid, kind: 'bad' });
+    this.s.quests[pid] = null;
+    if (u) u.hero.quest = null;
+    this.emit('questFailed', { player: pid, quest: q, unit: u ?? null, why });
   }
 
   _questDone(pid) {
@@ -1703,7 +1709,7 @@ export class Game {
       reward = `${n} ${UNITS[type].name}`;
     } else { const ap = { easy: 1, average: 1, hard: this.rint(2, 4) }[dif]; u.hero.ap += ap; reward = `${ap} ability point${ap > 1 ? 's' : ''}`; }
     this.note(`${u.hero.name} completes the quest "${q.text}" and is rewarded with ${reward}!`, { t: stack.t, kind: 'good', player: pid });
-    this.emit('questDone', { unit: u, quest: q, reward });
+    this.emit('questDone', { player: pid, unit: u, quest: q, reward });
   }
 }
 
