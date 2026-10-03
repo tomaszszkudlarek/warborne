@@ -279,7 +279,7 @@ export class Hud {
       }));
     }
     box.append(pal);
-    box.append(h('div.legend', h('span.k.str', '⛨'), 'strength', h('span.k.hp', '♥'), 'hits', h('span.k.mp', { vars: { '--c': owner >= 0 ? SIDES[owner].color : '#888' } }, '⚑'), 'moves left'));
+    box.append(h('div.legend', h('span.k.str', '⛨'), 'strength', h('span.k.hits', '♥'), 'hits', h('span.k.mp', { vars: { '--c': owner >= 0 ? SIDES[owner].color : '#888' } }, '⚑'), 'moves left'));
     if (mine) {
       const units = all.filter((u) => group.has(u.id));
       if (units.length) {

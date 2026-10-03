@@ -109,15 +109,15 @@ h1, h2, h3, .cinzel { font-family: Cinzel, serif; letter-spacing: 0.04em; }
 }
 .card .str { left: 2px; background: linear-gradient(180deg, #9aa4b8, #4a5366); clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); padding-bottom: 3px; }
 .card .mp { right: 2px; background: linear-gradient(180deg, color-mix(in srgb, var(--c, #888) 85%, #fff), color-mix(in srgb, var(--c, #888) 70%, #000)); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); padding-bottom: 4px; }
-.card .hits { left: 50%; transform: translateX(-50%); width: 20px; height: 18px; bottom: 3px; font-size: 10.5px; background: linear-gradient(180deg, #e0575a, #8a1c22); clip-path: path('M10 18 L1.6 9.4 A4.9 4.9 0 0 1 10 3.2 A4.9 4.9 0 0 1 18.4 9.4 Z'); padding-top: 1px; }
+.card .hits { top: 2px; right: 2px; bottom: auto; width: 20px; height: 18px; font-size: 10.5px; background: linear-gradient(180deg, #e0575a, #8a1c22); clip-path: path('M10 18 L1.6 9.4 A4.9 4.9 0 0 1 10 3.2 A4.9 4.9 0 0 1 18.4 9.4 Z'); padding-top: 1px; }
 .legend { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font-size: 11px; color: var(--ink-dim); margin-top: 6px; }
 .legend .k { display: inline-grid; place-items: center; width: 15px; height: 14px; font-size: 9px; color: #fff; margin-left: 6px; }
 .legend .k:first-child { margin-left: 0; }
 .legend .k.str { background: linear-gradient(180deg, #9aa4b8, #4a5366); clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); }
-.legend .k.hp { background: linear-gradient(180deg, #e0575a, #8a1c22); border-radius: 50%; }
+.legend .k.hits { background: linear-gradient(180deg, #e0575a, #8a1c22); border-radius: 50%; }
 .legend .k.mp { background: color-mix(in srgb, var(--c, #888) 80%, #000); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); }
 .card .marks { position: absolute; top: 2px; left: 3px; font-size: 10px; line-height: 1; display: flex; gap: 1px; filter: drop-shadow(0 1px 1px #000); }
-.card .lvl { position: absolute; top: 2px; right: 3px; font-size: 10px; font-weight: 800; color: var(--gold-hi); text-shadow: 0 1px 2px #000; }
+.card .lvl { position: absolute; top: 4px; right: 24px; font-size: 10px; font-weight: 800; color: var(--gold-hi); text-shadow: 0 1px 2px #000; }
 .card.hero { box-shadow: inset 0 0 0 1px rgba(255, 220, 130, 0.55); }
 .card.hero.sel { box-shadow: inset 0 0 0 2px var(--gold-hi), 0 0 10px rgba(255, 215, 120, 0.45); }
 .groupline { display: flex; justify-content: space-between; font-size: 12px; margin-top: 8px; color: var(--ink-dim); }
