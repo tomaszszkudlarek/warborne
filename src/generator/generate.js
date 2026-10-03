@@ -195,7 +195,7 @@ export function generateMap(userParams = {}, onProgress = () => {}) {
   let roadPaths = [], bridges = [], roadLines = [];
   if (params.roads && cities.length > 1) {
     onProgress('Building roads & bridges', 0.83);
-    roadPaths = buildRoads(g, tiles, flags, tileH, cities, subRng(seed, 'roads'));
+    roadPaths = buildRoads(g, tiles, flags, tileH, cities, subRng(seed, 'roads'), params.roadLoops ?? 0.45);
     ({ bridges, lines: roadLines } = buildBridgesAndRoadLines(g, h, flags, roadPaths, rivers, cities));
   }
   onProgress('Building harbours', 0.84);

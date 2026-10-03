@@ -216,8 +216,10 @@ fWat.add(P, 'riverWidth', 0.5, 2, 0.05).name('River width').onFinishChange(regen
 fWat.add(P, 'lakes', 0, 1, 0.01).name('Lakes').onFinishChange(regenerateSoon);
 const fRealm = gui.addFolder('Realm');
 fRealm.add(P, 'cities', 0, 80, 1).name('Cities').onFinishChange(regenerateSoon);
+fRealm.add(P, 'citySpacing', 0, 24, 1).name('Min. city spacing (tiles)').onFinishChange(regenerateSoon);
 fRealm.add(P, 'factions', 0, 8, 1).name('Factions').onFinishChange(regenerateSoon);
 fRealm.add(P, 'roads').name('Roads & bridges').onChange(regenerateSoon);
+fRealm.add(P, 'roadLoops', 0, 1, 0.05).name('Road loops').onFinishChange(regenerateSoon);
 fRealm.add(P, 'ruins', 0, 60, 1).name('Ruins').onFinishChange(regenerateSoon);
 fRealm.add(P, 'shrines', 0, 50, 1).name('Shrines').onFinishChange(regenerateSoon);
 fRealm.add(P, 'ports', 0, 30, 1).name('Ports (min. 1 per island)').onFinishChange(regenerateSoon);

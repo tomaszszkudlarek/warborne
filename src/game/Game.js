@@ -412,6 +412,25 @@ export class Game {
         touched.add(k);
       }
     }
+    if (rest.length && city) {
+      // a full city: the rest camp on the nearest free land outside its walls, never lost
+      const seen = new Set(city.tiles), ring = [...city.tiles];
+      for (let i = 0; i < ring.length && rest.length && i < 400; i++) {
+        for (const nt of this.move.neighbours(ring[i])) {
+          if (seen.has(nt)) continue;
+          seen.add(nt);
+          if (!this.move.isLand(nt) || this.cityAt(nt)) continue;
+          ring.push(nt);
+          const k = this.stackAt(nt);
+          if (k && (k.owner !== owner || k.units.length >= STACK_MAX)) continue;
+          const at = k ?? { id: this.s.nextId++, owner, t: nt, units: [], path: null, defend: false, done: false };
+          if (!k) this.s.stacks.push(at);
+          at.units.push(...rest.splice(0, STACK_MAX - at.units.length));
+          touched.add(at);
+          if (!rest.length) break;
+        }
+      }
+    }
     return [...touched];
   }
 
@@ -470,7 +489,7 @@ export class Game {
       this._train(u, c);
       const target = c.vector != null ? this.s.cities[c.vector] : null;
       if (target && target.owner === p.id && !target.razed) {
-        this.s.pending.push({ owner: p.id, units: [u], city: target.id, from: c.id, round: this.s.round + this.vectorTurns(c, target) });
+        this._sendPending(p.id, [u], c, target, this.s.round + this.vectorTurns(c, target));
       } else {
         this.addUnits(c.tiles[0], p.id, [u]);
         this.emit('produced', { city: c, unit: u });
@@ -483,8 +502,10 @@ export class Game {
       const c = this.s.cities[v.city];
       const dest = c.owner === p.id && !c.razed ? c : this.citiesOf(p.id)[0];
       if (!dest) continue;
-      this.addUnits(dest.tiles[0], p.id, v.units);
+      const placed = this.addUnits(dest.tiles[0], p.id, v.units);
       report.arrived.push({ city: dest.name, n: v.units.length });
+      const outside = placed.some((k) => !this.cityAt(k.t));
+      this.note(`${v.units.length} ${v.units.length === 1 ? 'army arrives' : 'armies arrive'} at ${dest.name} by vectoring${outside ? ' — the city is full, so some camp outside its walls' : ''}.`, { t: dest.t, player: p.id });
     }
     // armies get their movement back
     for (const k of this.stacksOf(p.id)) {
@@ -1566,9 +1587,17 @@ export class Game {
     if (!units.length || !k || target.owner !== k.owner || !from) return false;
     const turns = this.vectorTurns(from, target);
     this.removeUnits(unitIds);
-    this.s.pending.push({ owner: k.owner, units, city: target.id, from: from.id, round: this.s.round + turns });
+    this._sendPending(k.owner, units, from, target, this.s.round + turns);
     this.note(`${units.length} ${units.length === 1 ? 'army sets' : 'armies set'} off for ${target.name} (${turns} turns).`, { t: k.t });
     return true;
+  }
+
+  /** Puts armies on the vectoring road from `from` to `to`, arriving on `round`: they join a
+   * batch already on that road due the same day, so one road carries one party per day. */
+  _sendPending(owner, units, from, to, round) {
+    const v = this.s.pending.find((x) => x.owner === owner && x.from === from.id && x.city === to.id && x.round === round);
+    if (v) v.units.push(...units);
+    else this.s.pending.push({ owner, units, city: to.id, from: from.id, round });
   }
 
   /** Armies on the vectoring network bound for a city: [{ n, round, from }]. */

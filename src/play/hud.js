@@ -162,7 +162,7 @@ export function marks(u) {
   return m.join('');
 }
 
-/** A portrait card for an army: strength shield, movement banner, marks. */
+/** A portrait card for an army: strength shield, hit points heart, movement banner, marks. */
 export function unitCard(u, owner, portraits, { sel = false, off = false, onclick = null, title = null, tip = null } = {}) {
   const s = unitStats(u);
   const color = owner >= 0 ? SIDES[owner].color : '#888';
@@ -173,7 +173,7 @@ export function unitCard(u, owner, portraits, { sel = false, off = false, onclic
   h('img', { src: portraits.url(u.type, owner), draggable: 'false', 'data-type': u.type, 'data-owner': owner }),
   h('div.marks', marks(u)),
   u.hero ? h('div.lvl', `L${u.hero.level}`) : null,
-  h('div.str', s.str), h('div.mp', Math.floor(u.mp)));
+  h('div.str', s.str), h('div.hits', s.hits), h('div.mp', Math.floor(u.mp)));
   return tip ? hoverTip(el, tip) : el;
 }
 
@@ -259,7 +259,10 @@ export class Hud {
     const owner = sel.owner;
     const all = sel.units;
     const group = new Set(sel.group);
-    const title = sel.city != null ? `${g.s.cities[sel.city].name} garrison` : sel.units.length === 1 ? unitName(all[0]) : `Army of ${all.length}`;
+    const city = sel.city != null ? g.s.cities[sel.city] : null;
+    const garrison = city ? g.unitsIn(city).length : 0;
+    const title = city ? (sel.whole ? `${city.name} garrison` : `${city.name} · ${all.length === 1 ? unitName(all[0]) : `${all.length} armies`}`)
+      : all.length === 1 ? unitName(all[0]) : `Army of ${all.length}`;
     const [tx, ty] = g.tileXY(sel.t);
     box.append(h('div.title', h('div.crest', { vars: { '--c': owner >= 0 ? SIDES[owner].color : '#888' }, style: { width: '16px', height: '19px' } }), title, h('span.where', `${TileInfo[g.map.tiles[sel.t]].name} · ${tx},${ty}`)));
     const mine = owner === c.viewer && c.human;
@@ -276,6 +279,7 @@ export class Hud {
       }));
     }
     box.append(pal);
+    box.append(h('div.legend', h('span.k.str', '⛨'), 'strength', h('span.k.hp', '♥'), 'hits', h('span.k.mp', { vars: { '--c': owner >= 0 ? SIDES[owner].color : '#888' } }, '⚑'), 'moves left'));
     if (mine) {
       const units = all.filter((u) => group.has(u.id));
       if (units.length) {
@@ -284,6 +288,8 @@ export class Hud {
         box.append(h('div.groupline', h('span', 'Group move ', h('b', fmt(mv.mp))), h('span', 'Bonus ', h('b', bon))));
       }
       box.append(h('div.groupline', h('span.faint', 'Click a portrait to add or remove it from the group · double-click: only that one')));
+      // a corner of a city shows only its own stack; say how to see the rest
+      if (city && !sel.whole && garrison > all.length) box.append(h('div.groupline', h('span.faint', `${garrison - all.length} more in the other corners of ${city.name} — double-click the token (or G) for the whole garrison`)));
     }
     this.renderActions();
   }

@@ -53,7 +53,11 @@ export function placeCities(g, tiles, flags, tileH, params, rng, region) {
   cands.sort((a, b) => b.score - a.score);
   const coastal = new Set();
   for (let t = 0; t < W * H; t++) if (region[t] >= 0 && flags[t] & Flag.COAST) coastal.add(region[t]);
-  let minD = Math.sqrt((W * H) / count) * 0.62;
+  // spacing: spread by count, but never closer than citySpacing tiles when it is set (strategic
+  // depth: neighbours a turn or two apart, like the original's maps)
+  const spacing = params.citySpacing ?? 0;
+  let minD = Math.max(spacing, Math.sqrt((W * H) / count) * 0.62);
+  const floorD = spacing ? spacing * 0.85 : 4;
   // A castle's walls block walking; don't let one sit on an isthmus and cut its land in two.
   const walled = (x, y, c) => x >= c.tx && x <= c.tx + 1 && y >= c.ty && y <= c.ty + 1;
   const seen = new Int32Array(W * H).fill(-1);
@@ -98,8 +102,8 @@ export function placeCities(g, tiles, flags, tileH, params, rng, region) {
       cities.push({ tx: c.tx, ty: c.ty, region: c.region });
     }
     const stranded = cities.filter((c) => !coastal.has(c.region) && !cities.some((o) => o !== c && o.region === c.region));
-    // too few fit (many cities on little land): pack them closer, never nearer than 4 tiles
-    if (!stranded.length && cities.length < count && minD > 4) { minD = Math.max(4, minD * 0.85); continue; }
+    // too few fit (many cities on little land): pack them closer, never nearer than the floor
+    if (!stranded.length && cities.length < count && minD > floorD) { minD = Math.max(floorD, minD * 0.85); continue; }
     if (!stranded.length) break;
     for (const c of stranded) banned.add(c.region);
   }
@@ -405,7 +409,7 @@ export function flattenCities(g, h, cities) {
  * Roads run gate to gate and never through a city's footprint; cities on
  * separate land regions (islands) are not linked.
  */
-export function buildRoads(g, tiles, flags, tileH, cities, rng) {
+export function buildRoads(g, tiles, flags, tileH, cities, rng, loops = 0.45) {
   const { tilesW: W, tilesH: H } = g;
   const nT = W * H;
   const roadTiles = new Uint8Array(nT);
@@ -434,7 +438,7 @@ export function buildRoads(g, tiles, flags, tileH, cities, rng) {
   for (let a = 0; a < n; a++) {
     const near = [...Array(n).keys()].filter((b) => b !== a).sort((x, y) => dist(a, x) - dist(a, y));
     const b = near[1];
-    if (b !== undefined && !has(a, b) && rng() < 0.45 && dist(a, b) < Math.max(W, H) * 0.35) edges.push([a, b]);
+    if (b !== undefined && !has(a, b) && rng() < loops && dist(a, b) < Math.max(W, H) * 0.35) edges.push([a, b]);
   }
   edges.sort((e1, e2) => dist(...e1) - dist(...e2));
 

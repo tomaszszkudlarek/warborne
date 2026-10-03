@@ -137,7 +137,10 @@ export class MainMenu {
         card.firstChild.replaceWith(thumbnail(map, 3));
         card.querySelector('.n').textContent = map.meta?.name ?? m.file;
         const sides = [...new Set(map.cities.filter((c) => c.capital).map((c) => c.owner))];
-        card.querySelector('.m').textContent = `${map.grid.tilesW}×${map.grid.tilesH} · ${map.cities.length} cities · ${sides.length} sides · ${map.sites.length} ruins & shrines`;
+        // cities per side tells a quick skirmish from a long campaign with room to manoeuvre
+        const per = map.cities.length / Math.max(1, sides.length);
+        const scale = per < 4 ? 'close quarters — a quick skirmish' : per < 6 ? 'medium' : 'spacious — a full campaign';
+        card.querySelector('.m').textContent = `${map.grid.tilesW}×${map.grid.tilesH} · ${map.cities.length} cities · ${sides.length} sides · ${map.sites.length} ruins & shrines · ${per.toFixed(1)} cities a side: ${scale}`;
         card.onclick = () => {
           cards.forEach((c) => c.classList.remove('sel'));
           card.classList.add('sel');

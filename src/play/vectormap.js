@@ -179,18 +179,28 @@ export function vectorMap(ctl, opts = {}) {
       const m = arrow(ax, ay, bx, by, { width: hot ? 2.6 : 1.8, alpha: hot ? 1 : 0.55, dash: [7, 5], t });
       if (m && g.s.options.timedVectoring && hot) mids.push([String(g.vectorTurns(c, to)), m.mx, m.my]);
     }
-    // armies on the road: a pip part-way along their line
+    // armies on the road: one faint line per road, a marker part-way along it for each day's party
+    const roads = new Map();
     for (const v of g.s.pending) {
       if (v.owner !== viewer || v.from == null) continue;
-      const a = g.s.cities[v.from], b = g.s.cities[v.city];
+      const key = `${v.from}>${v.city}`;
+      if (!roads.has(key)) roads.set(key, { a: g.s.cities[v.from], b: g.s.cities[v.city], days: new Map() });
+      const days = roads.get(key).days;
+      days.set(v.round, (days.get(v.round) ?? 0) + v.units.length);
+    }
+    for (const { a, b, days } of roads.values()) {
       const total = g.vectorTurns(a, b);
-      const f = Math.max(0.05, Math.min(0.95, 1 - (v.round - g.s.round) / total));
-      const m = arrow(...at(a), ...at(b), { color: 'rgba(255,255,255,0.55)', width: 1.2, alpha: 0.7, dash: [2, 4] });
+      // where the city still vectors down this road the markers ride its arrow (alpha 0: the curve only)
+      const m = arrow(...at(a), ...at(b), { color: 'rgba(255,255,255,0.55)', width: 1.2, alpha: a.vector === b.id ? 0 : 0.7, dash: [2, 4] });
       if (!m) continue;
-      const [px, py] = onCurve(m.curve, f);
-      ctx.fillStyle = '#fff'; ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(px, py - 5); ctx.lineTo(px + 5, py); ctx.lineTo(px, py + 5); ctx.lineTo(px - 5, py); ctx.closePath(); ctx.stroke(); ctx.fill();
-      if (v.units.length > 1) label(String(v.units.length), px, py - 10, '#fff', 10);
+      for (const [round, n] of days) {
+        const left = round - g.s.round;
+        const f = Math.max(0.08, Math.min(0.92, 1 - left / total));
+        const [px, py] = onCurve(m.curve, f);
+        ctx.fillStyle = '#fff'; ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(px, py - 5); ctx.lineTo(px + 5, py); ctx.lineTo(px, py + 5); ctx.lineTo(px - 5, py); ctx.closePath(); ctx.stroke(); ctx.fill();
+        label(`${n}${left <= 1 ? ' · next turn' : ` · ${left} turns`}`, px, py - 11, '#fff', 10);
+      }
     }
     // the arrow being dragged
     if (drag?.moved) {

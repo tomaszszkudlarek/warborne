@@ -175,7 +175,9 @@ function frame(now) {
     if (frameNo % 2 === 0) { world.parts.volcanoFX?.userData.setPointScale(pointScale()); world.parts.siteFX?.userData.setPointScale(pointScale()); }
   }
   camera.getWorldDirection(fwd);
-  sky.focusShadow(controls.target, camera.position.distanceTo(controls.target), fwd);
+  const viewDist = camera.position.distanceTo(controls.target);
+  sky.focusShadow(controls.target, viewDist, fwd);
+  sky.fogViewDist = viewMode === 'menu' ? null : viewDist;
   weather.update(dt, camera, controls.target);
   sky.update(dt);
   ctl.update(dt);

@@ -40,6 +40,8 @@ const CAPTURE_DELAY = 1000; // ms after the battle screen closes before a taken 
 const CITY_CLICK = 0.42;
 /** "Only near me": enemy marches within this many tiles of the viewer's armies or cities are shown (user). */
 const NEAR_WATCH = 20;
+// palette order: heroes first, then the strongest
+const byRank = (units) => [...units].sort((a, b) => (b.hero ? 1 : 0) - (a.hero ? 1 : 0) || unitPower(b) - unitPower(a));
 // Context cursors (SVG, drawn on a dark outline so they read on any ground).
 const svgCursor = (body, x, y, fallback) => `url("data:image/svg+xml,${encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g stroke='#1a0d06' stroke-width='1.2' stroke-linejoin='round'>${body}</g></svg>`,
@@ -225,6 +227,8 @@ export class Controller {
     if (rep && g.currentId === p.id) {
       const parts = [`+${rep.income} gold`, `−${rep.upkeep} upkeep`];
       if (rep.produced.length) parts.push(`${rep.produced.length} new ${rep.produced.length === 1 ? 'army' : 'armies'}`);
+      const came = rep.arrived.reduce((n, a) => n + a.n, 0);
+      if (came) parts.push(`${came} arrived by vectoring`);
       if (rep.disbanded.length) parts.push(`<span class="bad">${rep.disbanded.length} deserted</span>`);
       toast(parts.join(' · '));
     }
@@ -445,13 +449,15 @@ export class Controller {
     if (!units.length) { this.view.sync(); return; }
     const owner = g.stackOfUnit(units[0].id)?.owner ?? move.stack.owner;
     const mine = owner === this.viewer;
-    // "Show enemy marches" off: other sides' armies just appear where they went
-    const visible = mine || this._watchEnemy(move.steps);
+    // an attack on the viewer's armies or castle always plays out, the camera on it, whatever the
+    // watch options say (user); otherwise, with "Show enemy movements" off, others just appear where they went
+    const onMe = !mine && this._attacksViewer(move);
+    const visible = mine || onMe || this._watchEnemy(move.steps);
     if (!visible) { this.view.sync(); return; }
     this.view.speed = mine ? 1 : ENEMY_MARCH_SPEED; // other sides' marches play faster
     const fly = move.plan?.mover?.fly ?? false;
     const follow = (pos) => {
-      if (!mine && !this.followAI) return;
+      if (!mine && !onMe && !this.followAI) return;
       this._camFollow(pos);
     };
     this.view.clearPlan();
@@ -474,6 +480,13 @@ export class Controller {
     } finally { if (sound) music.loop(sound, false); }
     this.view.sync();
     this.refresh();
+  }
+
+  /** Does the march end in an attack on the viewer's armies or city? */
+  _attacksViewer(move) {
+    const g = this.game, t = move.attack?.t;
+    if (t == null || this.viewer == null || !g.player(this.viewer)?.human) return false;
+    return (g.defendersAt(t)?.owner ?? g.cityAt(t)?.owner) === this.viewer;
   }
 
   /** Does tile t lie under snow: an ice field, land cold enough for snow (as the terrain
@@ -553,6 +566,7 @@ export class Controller {
     const lostMine = !mine && out.prevOwner === this.viewer && this.viewer != null;
     // the fanfare, the burst and the new banner come together, a second after the battle screen
     // closed (and a moment after the capture dialog)
+    const fought = this._battleEndAt != null; // else an empty castle walked into
     if (mine || lostMine) {
       const since = this._battleEndAt != null ? performance.now() - this._battleEndAt : Infinity;
       const wait = since === Infinity ? 0 : Math.max(CAPTURE_DELAY - since, mine ? 400 : 0);
@@ -560,6 +574,8 @@ export class Controller {
     }
     this._battleEndAt = null;
     if (this.game !== g) return;
+    // an empty castle walked into has had no battle screen: show where it was lost
+    if (lostMine && !fought) this.lookAtTile(c.t);
     this.view.refreshCastles();
     this.view.sync();
     if (this.seen(c.t) || mine) {
@@ -568,6 +584,7 @@ export class Controller {
     if (mine) music.sfx('captured');
     else if (lostMine) music.sfx('castleLost');
     if (mine) banner(out.choice === 'raze' ? `${c.name} razed` : `${c.name} taken`, out.gold ? `+${out.gold} gold` : '');
+    else if (lostMine) banner(out.choice === 'raze' ? `${c.name} razed` : `${c.name} lost`, `to the ${SIDES[out.stack.owner]?.name ?? 'enemy'}`);
     this._flushFx();
     this.refresh();
     // a city taken whole opens its window, so its production can be set straight away
@@ -696,16 +713,24 @@ export class Controller {
     this.select({ stack: k.id, city: null, owner: k.owner, t: k.t, units: k.units, group: group.length ? group : k.units.map((u) => u.id) });
   }
 
-  /** Selects a city's garrison: the whole garrison shows; the group is its first stack (or `group`). */
-  selectCity(city, group = null) {
+  /** Selects armies in a city. The palette shows the castle corner(s) the group stands in —
+   * the whole garrison only when `whole` (double click, G): a click on one corner's token must
+   * not fill the panel with every army in the city (user). The group is `group`, else the
+   * first stack with moves left. */
+  selectCity(city, group = null, whole = false) {
     const g = this.game;
-    const units = g.unitsIn(city).sort((a, b) => (b.hero ? 1 : 0) - (a.hero ? 1 : 0) || unitPower(b) - unitPower(a));
-    if (!units.length) { this.select(null); return; }
-    const owner = g.stackOfUnit(units[0].id).owner;
-    let ids = group ?? units.filter((u) => u.mp > 0).slice(0, STACK_MAX).map((u) => u.id);
-    if (!ids.length) ids = units.slice(0, STACK_MAX).map((u) => u.id);
+    const garrison = byRank(g.unitsIn(city));
+    if (!garrison.length) { this.select(null); return; }
+    const owner = g.stackOfUnit(garrison[0].id).owner;
+    let ids = group?.length ? group : null;
+    if (!ids) {
+      const k = g.garrison(city).find((x) => x.owner === owner && x.units.some((u) => u.mp > 0)) ?? g.garrison(city).find((x) => x.owner === owner);
+      ids = k.units.map((u) => u.id);
+    }
     const k = g.stackOfUnit(ids[0]);
-    this.select({ stack: k.id, city: city.id, owner, t: k.t, units, group: ids });
+    // the stacks the group stands in (a group spills over two corners when one is near full)
+    const units = whole ? garrison : byRank([...new Set(ids.map((id) => g.stackOfUnit(id)).filter(Boolean))].flatMap((x) => x.units));
+    this.select({ stack: k.id, city: city.id, owner, t: k.t, units, group: ids, whole });
   }
 
   /** Re-reads the selection from the game state after it changed. */
@@ -716,10 +741,7 @@ export class Controller {
       const city = g.s.cities[s.city];
       const units = g.unitsIn(city);
       if (!units.length || g.stackOfUnit(units[0].id).owner !== s.owner) return this.select(null);
-      const group = s.group.filter((id) => units.some((u) => u.id === id));
-      if (!group.length) return this.selectCity(city);
-      const k = g.stackOfUnit(group[0]);
-      return this.select({ ...s, stack: k.id, t: k.t, units: units.sort((a, b) => (b.hero ? 1 : 0) - (a.hero ? 1 : 0) || unitPower(b) - unitPower(a)), group });
+      return this.selectCity(city, s.group.filter((id) => units.some((u) => u.id === id)), s.whole);
     }
     const k = g.stack(s.stack) ?? (s.group.length ? g.stackOfUnit(s.group[0]) : null);
     if (!k || k.owner !== s.owner) return this.select(null);
@@ -1308,16 +1330,17 @@ export class Controller {
     this.select(null);
   }
 
-  /** Every army at the selection's place joins the group: the whole stack, or in a city as
-   * much of the garrison as a group holds (those with moves left first). */
+  /** Every army at the selection's place joins the group: the whole stack, or in a city the
+   * whole garrison shows and as much of it as a group holds joins (those with moves left first). */
   selectAll() {
-    const s = this.sel;
+    const s = this.sel, g = this.game;
     if (!s) return;
-    const units = [...s.units].sort((a, b) => (b.mp > 0 ? 1 : 0) - (a.mp > 0 ? 1 : 0));
+    const all = s.city != null ? byRank(g.unitsIn(g.s.cities[s.city])) : s.units;
+    const units = [...all].sort((a, b) => (b.mp > 0 ? 1 : 0) - (a.mp > 0 ? 1 : 0));
     const group = units.slice(0, STACK_MAX).map((u) => u.id);
-    const k = this.game.stackOfUnit(group[0]);
-    this.select({ ...s, stack: k.id, t: k.t, group });
-    if (s.units.length > STACK_MAX) toast(`A group holds at most ${STACK_MAX} armies.`);
+    const k = g.stackOfUnit(group[0]);
+    this.select({ ...s, stack: k.id, t: k.t, units: all, group, whole: s.city != null });
+    if (all.length > STACK_MAX) toast(`A group holds at most ${STACK_MAX} armies.`);
   }
 
   /** The pointer tells what a click does: swords where a right click attacks this turn, a banner
@@ -1418,7 +1441,7 @@ export class Controller {
       case 'KeyT': if (!e.repeat) this.pickUpItems(); break;
       case 'KeyC': this.openCast(hero); break;
       case 'KeyH': this.openHero(hero ?? this.sel?.units.find((u) => u.hero)); break;
-      case 'KeyG': if (this.sel) this.select({ ...this.sel, group: this.sel.units.slice(0, STACK_MAX).map((u) => u.id) }); break;
+      case 'KeyG': this.selectAll(); break;
       case 'Enter': this.endTurnClicked(); break;
       case 'KeyR': this.openReports(); break;
       case 'KeyP': this.openDiplomacy(); break;

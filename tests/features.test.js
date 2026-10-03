@@ -8,6 +8,7 @@ import { HERO_CLASSES } from '../src/game/data/heroes.js';
 import { standing, BRIBE_GOLD } from '../src/game/diplomacy.js';
 import { makeSignposts } from '../src/game/signposts.js';
 import { newGame, loadMap } from './helpers.js';
+import { CITY_MAX } from '../src/game/rules.js';
 
 /** A free land tile next to tile t. */
 const freeNear = (g, t, not = []) => g.move.neighbours(t).find((x) => g.move.isLand(x) && !g.cityAt(x) && !g.stackAt(x) && !not.includes(x));
@@ -502,4 +503,37 @@ test('losing a vectoring target stops the vectoring and turns the armies on the 
   assert.equal(from.producing, from.prod[0]);
   assert.ok(!g.s.pending.some((v) => v.units.includes(u)));
   assert.equal(g.cityAt(g.stackOfUnit(u.id).t), from);
+});
+
+test('armies vectored into a full city camp outside its walls instead of vanishing', async () => {
+  const g = await newGame('eight-warlords.wlmap');
+  const p = g.current;
+  const from = g.citiesOf(p.id)[0];
+  const to = g.s.cities.find((c) => c.owner < 0 && !c.razed);
+  to.owner = p.id;
+  for (const k of g.garrison(to)) g.removeUnits(k.units.map((u) => u.id));
+  while (g.unitsIn(to).length < CITY_MAX) g.addUnits(to.tiles[0], p.id, [g.newUnit('archer')]);
+  const sent = g.garrison(from)[0].units.map((u) => u.id);
+  assert.ok(g.vectorUnits(sent, to));
+  for (let i = 0; i < 2 * g.s.players.length; i++) g.endTurn();
+  for (const id of sent) {
+    const k = g.stackOfUnit(id);
+    assert.ok(k, 'a vectored army was lost');
+    assert.ok(g.move.distance(k.t, to.t) <= 4);
+  }
+  assert.equal(g.unitsIn(to).length, CITY_MAX);
+});
+
+test('a city vectoring its production sends one party a day down the road', async () => {
+  const g = await newGame('eight-warlords.wlmap');
+  const p = g.current;
+  const [from, to] = [g.citiesOf(p.id)[0], g.s.cities.find((c) => c.owner < 0 && !c.razed)];
+  to.owner = p.id;
+  const [a, b] = [g.newUnit('archer'), g.newUnit('archer')];
+  g._sendPending(p.id, [a], from, to, g.s.round + 2);
+  g._sendPending(p.id, [b], from, to, g.s.round + 2);
+  g._sendPending(p.id, [g.newUnit('archer')], from, to, g.s.round + 3);
+  const mine = g.s.pending.filter((v) => v.owner === p.id && v.city === to.id);
+  assert.equal(mine.length, 2);
+  assert.deepEqual(g.incoming(to).map((v) => v.n).sort(), [1, 2]);
 });

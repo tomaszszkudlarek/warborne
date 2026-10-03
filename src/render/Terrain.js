@@ -252,7 +252,8 @@ vec3 cVolc = mix(vec3(0.07, 0.06, 0.06), vec3(0.2, 0.12, 0.09), n1) * (0.75 + 0.
 vec3 cRock = mix(vec3(0.3, 0.27, 0.24), vec3(0.18, 0.17, 0.16), n2);
 cRock *= 0.86 + 0.14 * sin(wp.y * 4.5 + n1 * 7.0);
 cRock = mix(cRock, vec3(0.1, 0.09, 0.09), sb.g);
-vec3 cRoad = mix(vec3(0.4, 0.31, 0.2), vec3(0.3, 0.24, 0.17), n3);
+// packed earth, light enough to read against grass and forest from the strategic zoom
+vec3 cRoad = mix(vec3(0.6, 0.48, 0.32), vec3(0.5, 0.4, 0.28), n3);
 vec3 cSnow = vec3(0.93, 0.95, 0.99) * (0.94 + 0.06 * n3);
 
 float wsum = wa.r + wa.g + wa.b + wa.a + wb.x + wb.y + 1e-3;

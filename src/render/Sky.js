@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import { U } from './uniforms.js';
 import { noiseGLSL } from './shaders/common.js';
 
+// camera distance up to which the weather's haze keeps its full density (game view, see fogViewDist)
+const FOG_CLEAR_DIST = 45;
+
 const smoothstep = (a, b, x) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return t * t * (3 - 2 * t);
@@ -165,6 +168,9 @@ export class SkySystem {
     this.fog = new THREE.FogExp2(0xaabbcc, 0.004);
     scene.fog = this.fog;
     this.fogDensity = 0.0035;
+    // distance from the camera to what it looks at, when the game sets it: the haze thins as the
+    // view pulls back so the ground in view stays readable at any zoom (the horizon still melts)
+    this.fogViewDist = null;
 
     this.sunDir = new THREE.Vector3();
     this.sunElevation = 0;
@@ -287,7 +293,7 @@ export class SkySystem {
 
     // Fog tracks the horizon so the map melts into the sky.
     this.fog.color.copy(h).lerp(z, 0.15);
-    this.fog.density = this.fogDensity;
+    this.fog.density = this.fogDensity * (this.fogViewDist ? Math.min(1, FOG_CLEAR_DIST / this.fogViewDist) : 1);
 
     // Re-bake the environment map when the sky changed noticeably.
     this._envTimer -= dt;
